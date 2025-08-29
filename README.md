@@ -2,14 +2,14 @@
 
 Programs for [spaced repetition][1] using flashcards in [Markdown][2].
 
-- **Essentialist**: Application for desktops and mobiles
-- **Flashdown**: Console application
+- **Essentialist**: Application for desktops (Windows, MacOS and Linux) and mobile (Android)
+- **Flashdown**: Terminal user interface
 
 The space repetition algorithm used is based on [SM-2][3].
 
 Key features:
 
-- **Privacy**: No cloud, your data never leave your device.
+- **Privacy**: No network access, your data never leave your device.
 - **Easy card creation**: Flash cards are plain text Markdown files.
 - **Cross-platform**: Runs on Linux, MacOS, Windows and android.
 
@@ -154,3 +154,8 @@ go run github.com/dennwc/flatpak-go-mod@latest .
 mv modules.txt cmd/essentialist/flatpak/
 cat go.mod.yml >> cmd/essentialist/flatpak/io.github.lugu.essentialist.yml
 ```
+
+### How to make a new version
+
+- Update the version number in `cmd/essentialist/FyneApp.toml`.
+- Create a tag like `v0.2.8` and push it.
