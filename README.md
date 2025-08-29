@@ -152,7 +152,7 @@ go get -u all
 go mod tidy
 go run github.com/dennwc/flatpak-go-mod@latest .
 mv modules.txt cmd/essentialist/flatpak/
-cat go.mod.yml >> cmd/essentialist/flatpak/io.github.lugu.essentialist.yml
+cat go.mod.yml >> cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml
 ```
 
 ### How to make a new version
