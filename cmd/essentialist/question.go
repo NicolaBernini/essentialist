@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 type maxWidthCenterLayout struct {
@@ -51,10 +51,10 @@ func space() fyne.CanvasObject {
 }
 
 type QuestionScreen struct {
-	game *flashdown.Game
+	game *internal.Game
 }
 
-func NewQuestionScreen(game *flashdown.Game) Screen {
+func NewQuestionScreen(game *internal.Game) Screen {
 	return &QuestionScreen{game: game}
 }
 
@@ -128,32 +128,32 @@ func (s *QuestionScreen) Hide(app Application) {
 }
 
 type AnswerScreen struct {
-	game *flashdown.Game
+	game *internal.Game
 }
 
-func NewAnswerScreen(game *flashdown.Game) Screen {
+func NewAnswerScreen(game *internal.Game) Screen {
 	return &AnswerScreen{game: game}
 }
 
 func (s *AnswerScreen) answersButton(app Application) *fyne.Container {
-	bt := func(label string, score flashdown.Score) *widget.Button {
+	bt := func(label string, score internal.Score) *widget.Button {
 		return widget.NewButton(label,
 			func() {
 				s.reviewScore(app, score)
 			})
 	}
 	buttons := []fyne.CanvasObject{
-		bt("Total blackout", flashdown.TotalBlackout),
-		bt("Perfect recall", flashdown.PerfectRecall),
-		bt("Incorrect difficult", flashdown.IncorrectDifficult),
-		bt("Correct difficult", flashdown.CorrectDifficult),
-		bt("Incorrect easy", flashdown.IncorrectEasy),
-		bt("Correct easy", flashdown.CorrectEasy),
+		bt("Total blackout", internal.TotalBlackout),
+		bt("Perfect recall", internal.PerfectRecall),
+		bt("Incorrect difficult", internal.IncorrectDifficult),
+		bt("Correct difficult", internal.CorrectDifficult),
+		bt("Incorrect easy", internal.IncorrectEasy),
+		bt("Correct easy", internal.CorrectEasy),
 	}
 	return container.New(layout.NewGridLayout(2), buttons...)
 }
 
-func (s *AnswerScreen) reviewScore(app Application, score flashdown.Score) {
+func (s *AnswerScreen) reviewScore(app Application, score internal.Score) {
 	s.game.Review(score)
 	if s.game.IsFinished() {
 		s.game.Save()
@@ -168,17 +168,17 @@ func (s *AnswerScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 		if key.Name != "" {
 			switch key.Name {
 			case fyne.Key0:
-				s.reviewScore(app, flashdown.TotalBlackout)
+				s.reviewScore(app, internal.TotalBlackout)
 			case fyne.Key1:
-				s.reviewScore(app, flashdown.IncorrectDifficult)
+				s.reviewScore(app, internal.IncorrectDifficult)
 			case fyne.Key2:
-				s.reviewScore(app, flashdown.IncorrectEasy)
+				s.reviewScore(app, internal.IncorrectEasy)
 			case fyne.Key3:
-				s.reviewScore(app, flashdown.CorrectDifficult)
+				s.reviewScore(app, internal.CorrectDifficult)
 			case fyne.Key4:
-				s.reviewScore(app, flashdown.CorrectEasy)
+				s.reviewScore(app, internal.CorrectEasy)
 			case fyne.Key5:
-				s.reviewScore(app, flashdown.PerfectRecall)
+				s.reviewScore(app, internal.PerfectRecall)
 			case fyne.KeyQ, fyne.KeyEscape:
 				s.game.Save()
 				app.Display(NewSplashScreen())

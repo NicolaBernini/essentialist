@@ -1,6 +1,6 @@
-# Contributing to Flashdown
+# Contributing to Essentialist
 
-We welcome contributions to Flashdown! This document outlines the guidelines
+We welcome contributions to Essentialist! This document outlines the guidelines
 for submitting issues and pull requests.
 
 ## Getting Started
@@ -28,9 +28,9 @@ Be respectful and considerate of your fellow contributors.
 
 ## Versioning Guidelines
 
-Flashdown loosely follows semantic versioning with some exceptions:
+Essentialist loosely follows semantic versioning with some exceptions:
 
-* Internal API: The go package github.com/lugu/flashdown/internal is internal
+* Internal API: The go package github.com/essentialist-app/essentialist/internal is internal
 and not subject to semantic versioning.
 * Major Version Changes: Incompatible changes related to:
   * Supported platforms

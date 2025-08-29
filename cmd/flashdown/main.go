@@ -10,7 +10,7 @@ import (
 
 	ui "github.com/gizak/termui/v3"
 	"github.com/gizak/termui/v3/widgets"
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 const (
@@ -55,7 +55,7 @@ var (
 	helpIndex  = 0
 	helpAnswer = helpAnswers[helpIndex]
 
-	game *flashdown.Game
+	game *internal.Game
 )
 
 func main() {
@@ -64,13 +64,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	cardsNb := flashdown.CARDS_TO_REVIEW
+	cardsNb := internal.CARDS_TO_REVIEW
 	files := make([]string, 0, len(os.Args))
 
 	for i := 1; i < len(os.Args); i++ {
 		switch os.Args[i] {
 		case "-a", "--all", "-all":
-			cardsNb = flashdown.ALL_CARDS
+			cardsNb = internal.ALL_CARDS
 			continue
 		case "-d", "--debug", "-debug":
 			file, err := os.CreateTemp(".", "log")
@@ -125,7 +125,7 @@ func main() {
 		}
 	}
 
-	game, err := flashdown.NewGameFromFiles(cardsNb, files)
+	game, err := internal.NewGameFromFiles(cardsNb, files)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -180,7 +180,7 @@ func main() {
 		ui.Clear()
 		ui.Render(grid, help)
 	}
-	review := func(score flashdown.Score) {
+	review := func(score internal.Score) {
 		game.Review(score)
 		ask()
 	}
@@ -234,17 +234,17 @@ func main() {
 			case "<Space>", "<Enter>":
 				answer()
 			case "0":
-				review(flashdown.TotalBlackout)
+				review(internal.TotalBlackout)
 			case "1":
-				review(flashdown.IncorrectDifficult)
+				review(internal.IncorrectDifficult)
 			case "2":
-				review(flashdown.IncorrectEasy)
+				review(internal.IncorrectEasy)
 			case "3":
-				review(flashdown.CorrectDifficult)
+				review(internal.CorrectDifficult)
 			case "4":
-				review(flashdown.CorrectEasy)
+				review(internal.CorrectEasy)
 			case "5":
-				review(flashdown.PerfectRecall)
+				review(internal.PerfectRecall)
 			}
 		}
 		if game.IsFinished() {

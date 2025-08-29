@@ -9,7 +9,7 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 type SettingsScreen struct{}
@@ -71,8 +71,8 @@ func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 		30,
 		40,
 		50,
-		flashdown.CARDS_TO_REVIEW,
-		flashdown.ALL_CARDS,
+		internal.CARDS_TO_REVIEW,
+		internal.ALL_CARDS,
 	}
 	onChange := func(selected string) {
 		for i, s := range selections {

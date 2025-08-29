@@ -18,7 +18,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 const (
@@ -150,7 +150,7 @@ func newHomeTopBar(app Application, s *HomeScreen) *fyne.Container {
 	return newTopBar("Home", start, help, settings, quit)
 }
 
-func newProgressTopBar(app Application, game *flashdown.Game) *fyne.Container {
+func newProgressTopBar(app Application, game *internal.Game) *fyne.Container {
 	percent := game.Success()
 	current, total := game.Progress()
 	text := fmt.Sprintf("Session: %d/%d — Success: %.0f%% — %s",
@@ -177,7 +177,7 @@ func bottomButton(label string, cb func()) *fyne.Container {
 		button)
 }
 
-func continueButton(app Application, game *flashdown.Game) *fyne.Container {
+func continueButton(app Application, game *internal.Game) *fyne.Container {
 	return bottomButton("See answer", func() {
 		app.Display(NewAnswerScreen(game))
 	})
@@ -261,11 +261,11 @@ func dbFile(file fyne.URI) (fyne.URI, error) {
 	return storage.ParseURI(uri)
 }
 
-func loadDecks() ([]flashdown.DeckAccessor, error) {
+func loadDecks() ([]internal.DeckAccessor, error) {
 	return loadDir(getDirectory())
 }
 
-func loadDir(dir fyne.URI) ([]flashdown.DeckAccessor, error) {
+func loadDir(dir fyne.URI) ([]internal.DeckAccessor, error) {
 	files, err := storage.List(dir)
 	if err != nil {
 		return nil, err
@@ -274,7 +274,7 @@ func loadDir(dir fyne.URI) ([]flashdown.DeckAccessor, error) {
 	var wg sync.WaitGroup
 	wg.Add(len(files))
 
-	results := make(chan flashdown.DeckAccessor, len(files))
+	results := make(chan internal.DeckAccessor, len(files))
 	errors := make(chan error, len(files))
 
 	for _, file := range files {
@@ -306,7 +306,7 @@ func loadDir(dir fyne.URI) ([]flashdown.DeckAccessor, error) {
 
 	var wg2 sync.WaitGroup
 	wg2.Add(1)
-	accessors := make([]flashdown.DeckAccessor, 0)
+	accessors := make([]internal.DeckAccessor, 0)
 	go func() {
 		defer wg2.Done()
 		for accessor := range results {

@@ -63,7 +63,7 @@ A GUI version for desktops and mobile (Android, iOS support isn't tested).
 ### Installation
 
 Download the latest version of Essentialist (available
-[here](https://github.com/lugu/flashdown/releases)) or compile it with the
+[here](https://github.com/essentialist-app/essentialist/releases)) or compile it with the
 following instructions:
 
 <details><summary>Linux</summary>

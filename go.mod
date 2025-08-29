@@ -1,4 +1,4 @@
-module github.com/lugu/flashdown
+module github.com/essentialist-app/essentialist
 
 go 1.23.0
 

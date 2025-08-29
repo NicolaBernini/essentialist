@@ -8,20 +8,20 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 // Warning: decks are loaded on demand by the list widget
 type HomeScreen struct {
-	accessors []flashdown.DeckAccessor
-	decks     []*flashdown.Deck
+	accessors []internal.DeckAccessor
+	decks     []*internal.Deck
 	cardsNb   int
 }
 
-func NewHomeScreen(accessors []flashdown.DeckAccessor) Screen {
+func NewHomeScreen(accessors []internal.DeckAccessor) Screen {
 	return &HomeScreen{
 		accessors: accessors,
-		decks:     make([]*flashdown.Deck, len(accessors)),
+		decks:     make([]*internal.Deck, len(accessors)),
 		cardsNb:   getRepetitionLenght(),
 	}
 }
@@ -56,10 +56,10 @@ func (s *HomeScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 
 func (s *HomeScreen) startQuickSession(app Application) {
 	// We need to load remaning decks not yet loaded by by list widget.
-	decks := make([]*flashdown.Deck, 0, len(s.accessors))
+	decks := make([]*internal.Deck, 0, len(s.accessors))
 	for i, a := range s.accessors {
 		if s.decks[i] == nil {
-			deck, err := flashdown.NewDeck(a)
+			deck, err := internal.NewDeck(a)
 			if err != nil {
 				s.decks[i] = deck
 				decks = append(decks, deck)
@@ -68,7 +68,7 @@ func (s *HomeScreen) startQuickSession(app Application) {
 			decks = append(decks, s.decks[i])
 		}
 	}
-	game := flashdown.NewGame(s.cardsNb, decks...)
+	game := internal.NewGame(s.cardsNb, decks...)
 	if game.IsFinished() {
 		app.Display(NewCongratsScreen(game))
 	} else {
@@ -105,9 +105,9 @@ func (s *HomeScreen) deckList(app Application) fyne.CanvasObject {
 			label := o.(*widget.Label)
 			if s.decks[i] == nil { // lazy loading
 				var err error
-				s.decks[i], err = flashdown.NewDeck(s.accessors[i])
+				s.decks[i], err = internal.NewDeck(s.accessors[i])
 				if err != nil {
-					s.decks[i] = flashdown.NewEmptyDeck(
+					s.decks[i] = internal.NewEmptyDeck(
 						s.accessors[i].DeckName())
 					label.SetText(fmt.Sprintf("Failed to load %s: %s",
 						s.accessors[i].DeckName(), err))
@@ -117,7 +117,7 @@ func (s *HomeScreen) deckList(app Application) fyne.CanvasObject {
 			s.updateDeckButton(app, label, i)
 		})
 	list.OnSelected = func(id widget.ListItemID) {
-		game := flashdown.NewGame(getRepetitionLenght(), s.decks[id])
+		game := internal.NewGame(getRepetitionLenght(), s.decks[id])
 		if game.IsFinished() {
 			app.Display(NewCongratsScreen(game))
 		} else {

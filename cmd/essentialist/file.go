@@ -6,7 +6,7 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/storage"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 type uriDeckAccessor struct {
@@ -38,7 +38,7 @@ func (u *uriDeckAccessor) DeckName() string {
 	return u.deck.Name()
 }
 
-func NewDeckAccessor(deck, db fyne.URI) flashdown.DeckAccessor {
+func NewDeckAccessor(deck, db fyne.URI) internal.DeckAccessor {
 	return &uriDeckAccessor{
 		deck: deck,
 		db:   db,

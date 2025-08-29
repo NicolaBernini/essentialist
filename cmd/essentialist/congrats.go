@@ -5,14 +5,14 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	flashdown "github.com/lugu/flashdown/internal"
+	"github.com/essentialist-app/essentialist/internal"
 )
 
 type CongratsScreen struct {
-	game *flashdown.Game
+	game *internal.Game
 }
 
-func NewCongratsScreen(game *flashdown.Game) Screen {
+func NewCongratsScreen(game *internal.Game) Screen {
 	return &CongratsScreen{game: game}
 }
 
