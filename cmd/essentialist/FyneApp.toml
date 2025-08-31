@@ -1,8 +1,8 @@
-Website = "https://github.com/essentialist-app/essentialist"
+Website = "https://essentialist.app"
 
 [Details]
-  Icon = "essentialist-icon.png"
+  Icon = "flatpak/io.github.essentialist_app.essentialist.png"
   Name = "Essentialist"
   ID = "io.github.essentialist_app.essentialist"
-  Version = "0.2.9"
-  Build = 1
+  Version = "0.3.1"
+  Build = 2
