@@ -284,7 +284,6 @@ func loadDir(dir fyne.URI) ([]internal.DeckAccessor, error) {
 				return
 			}
 			if file.Extension() != ".md" && file.Name() != dir.Name() {
-				println("%s", file.String())
 				accessors, err := loadDir(file)
 				if err != nil {
 					return
