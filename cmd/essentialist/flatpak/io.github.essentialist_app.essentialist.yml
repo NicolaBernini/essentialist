@@ -10,6 +10,7 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --device=dri
+  - --filesystem=home
 build-options:
   env:
     - GOBIN=/app/bin
