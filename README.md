@@ -155,5 +155,5 @@ go run github.com/dennwc/flatpak-go-mod@latest -out cmd/essentialist/flatpak/ .
 
 ### How to make a new version
 
-- Update the version number in `cmd/essentialist/FyneApp.toml`.
-- Create a tag like `v0.2.8` and push it.
+- Update the version number in `cmd/essentialist/FyneApp.toml` and `cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml`.
+- Create a tag like `vX.Y.Z` and push it. Increment X.Y.Z according to the [versioning guidelines](./.github/CONTRIBUTING.md)
