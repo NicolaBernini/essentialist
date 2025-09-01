@@ -3,8 +3,14 @@ package main
 import (
 	"sort"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
+)
+
+var (
+	welcomeMessage = "Welcome to Essentialist. Please set the directory where to find your cards in the Settings menu."
 )
 
 type SplashScreen struct{}
@@ -23,6 +29,17 @@ func (s *SplashScreen) load(app Application) {
 
 // Show an empty screen until the games are loaded, then shows HomeScreen.
 func (s *SplashScreen) Show(app Application) {
+	// Welcome message when the application is launched for the first time.
+	prefs := fyne.CurrentApp().Preferences()
+	dir := prefs.StringWithFallback("directory", "")
+	if dir == "" {
+		welcomeButton := widget.NewButton(welcomeMessage, func() {
+			s.load(app)
+		})
+		emptyContainer := container.New(layout.NewHBoxLayout(), welcomeButton)
+		app.Window().SetContent(emptyContainer)
+		return
+	}
 	emptyContainer := container.New(layout.NewHBoxLayout(), layout.NewSpacer())
 	app.Window().SetContent(emptyContainer)
 	go s.load(app) // load the games in the background
