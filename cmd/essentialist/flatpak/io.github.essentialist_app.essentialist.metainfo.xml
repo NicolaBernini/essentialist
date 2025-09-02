@@ -28,6 +28,12 @@
   
   <screenshots>
     <screenshot type="default">
+      <caption>Screencast</caption>
+      <video>
+        <source>https://essentialist.app/screencast.webm</source>
+      </video>
+    </screenshot>
+    <screenshot>
       <caption>Home screen with the list of decks</caption>
       <image>https://essentialist.app/home.png</image>
     </screenshot>
