@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	welcomeMessage = "Welcome to Essentialist. Please set the directory where to find your cards in the Settings menu."
+	welcomeMessage = "Welcome to Essentialist. Please set the directory containing your flashcards."
 )
 
 type SplashScreen struct{}
@@ -34,9 +34,10 @@ func (s *SplashScreen) Show(app Application) {
 	dir := prefs.StringWithFallback("directory", "")
 	if dir == "" {
 		welcomeButton := widget.NewButton(welcomeMessage, func() {
-			s.load(app)
+			app.Display(NewSettingsScreen())
 		})
-		emptyContainer := container.New(layout.NewHBoxLayout(), welcomeButton)
+		emptyContainer := container.New(layout.NewHBoxLayout(),
+			layout.NewSpacer(), welcomeButton, layout.NewSpacer())
 		app.Window().SetContent(emptyContainer)
 		return
 	}
