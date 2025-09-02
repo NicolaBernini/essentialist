@@ -3,15 +3,14 @@
   <id>io.github.essentialist_app.essentialist</id>
   
   <name>Essentialist</name>
-  <summary>Essentialist is a simple, private, and cross-platform flashcard app designed to make studying and note-taking a seamless process. 🧠</summary>
+  <summary>Minimalist flashcard app for seamless studying and note-taking in Markdown. 🧠</summary>
   
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   
   <description>
-    <p>Essentialist is a simple, private, and cross-platform flashcard app designed to make studying and note-taking a seamless process. 🧠</p>
-    <p><b>Create Flashcards from Notes</b></p>
-    <p>Tired of creating flashcards in a separate app after taking notes? Essentialist makes it easy. Your flashcard decks are just simple Markdown files, which means you can create cards directly while taking notes. This is a perfect workflow for students and anyone who takes notes and wants to quickly turn them into study material. Each card is defined by a simple H2 header (## Your Card Title).</p>
+    <p><b>The easiest way to take notes</b></p>
+    <p>Your flashcard decks are just simple Markdown files, which means you can create cards directly while taking notes. This is a perfect workflow for students and anyone who takes notes and wants to quickly turn them into study material. Each card is defined by a simple H2 header (## Your Card Title).</p>
     <p>Because your decks are plain text files, they are:</p>
     <ul>
       <li>Easy to manage: You can organize them with any file manager.</li>
@@ -20,38 +19,37 @@
     </ul>
     <p>Essentialist supports a variety of Markdown features, including lists, tables, emojis, and basic text styling (italic and bold). Please note that image support is not yet available.</p>
     <p><b>Privacy and Simplicity at the Core</b></p>
-    <p>We believe your data should stay yours. Essentialist doesn't perform any network operations. It respects your privacy by keeping your data right where it belongs: on your device. There's no cloud, no sync service, and no data collection.</p>
-    <p>The app features a minimalist user interface that's distraction-free and helps you focus on your learning. It includes a dark theme for comfortable late-night study sessions and robust keyboard bindings for quick navigation and interaction. For those who prefer the command line, there's also a companion terminal application.</p>
-    <p><b>Learn Anywhere, On Any Device</b></p>
-    <p>Whether you're on your laptop, desktop, or phone, Essentialist has you covered. It's not just for Linux; it's also available on Windows, macOS, and Android, allowing you to study and review your flashcards in different environments without being locked into a single platform.</p>
+    <p>We strongly believe that you should be in control of your data. Essentialist doesn't perform any network operations. There's no cloud, no sync service, and no data collection. You can use an external app if you want to synchronize your cards and your scores.</p>
+    <p>The user interface is minimalist to help you focus on your learning. It has robust keyboard bindings for quick navigation and interaction. For those who prefer the command line, there's a terminal app called flashdown.</p>
+    <p>Essentialist is also available on Windows, macOS, and Android.</p>
   </description>
   
   <launchable type="desktop-id">io.github.essentialist_app.essentialist.desktop</launchable>
   
   <screenshots>
     <screenshot type="default">
+      <caption>Home screen with the list of decks</caption>
       <image>https://essentialist.app/home.png</image>
     </screenshot>
     <screenshot>
+      <caption>A question and its answer</caption>
       <image>https://essentialist.app/question.png</image>
     </screenshot>
     <screenshot>
+      <caption>Settings menu</caption>
       <image>https://essentialist.app/settings.png</image>
     </screenshot>
     <screenshot>
+      <caption>Help menu with keyboard shortcuts</caption>
       <image>https://essentialist.app/help.png</image>
     </screenshot>
     <screenshot>
+      <caption>Home with dark theme</caption>
       <image>https://essentialist.app/home-dark.png</image>
     </screenshot>
     <screenshot>
+      <caption>Question with dark theme</caption>
       <image>https://essentialist.app/question-dark.png</image>
-    </screenshot>
-    <screenshot>
-      <image>https://essentialist.app/settings-dark.png</image>
-    </screenshot>
-    <screenshot>
-      <image>https://essentialist.app/help-dark.png</image>
     </screenshot>
   </screenshots>
   
