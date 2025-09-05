@@ -8,7 +8,6 @@ command: essentialist
 finish-args:
   - --share=ipc
   - --socket=wayland
-  - --socket=fallback-x11
   - --device=dri
   - --filesystem=xdg-documents
 build-options:
@@ -19,7 +18,7 @@ modules:
   - name: essentialist
     buildsystem: simple
     build-commands:
-      - $GOROOT/bin/go build -o essentialist ./cmd/essentialist
+      - $GOROOT/bin/go build -tags wayland -o essentialist ./cmd/essentialist
       - $GOROOT/bin/go build -o flashdown ./cmd/flashdown
       - install -Dm00755 essentialist /app/bin/essentialist
       - install -Dm00755 flashdown /app/bin/flashdown

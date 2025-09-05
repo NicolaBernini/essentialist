@@ -62,12 +62,22 @@ A GUI version for desktops and mobile (Android, iOS support isn't tested).
 
 ### Installation
 
-Download the latest version of Essentialist (available
-[here](https://github.com/essentialist-app/essentialist/releases)) or compile it with the
-following instructions:
+[Download the latest version](https://github.com/essentialist-app/essentialist/releases)
+or compile it with the following instructions:
 
 <details><summary>Linux</summary>
 <p>
+
+You can either compile with support for X11 or Wayland but
+[not both](https://github.com/fyne-io/fyne/issues/5471) at the moment.
+
+To enable Wayland support, use:
+
+```shell
+go install --tags wayland ./cmd/essentialist
+```
+
+To enable X11 support (default), use:
 
 ```shell
 go install ./cmd/essentialist
