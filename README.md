@@ -68,19 +68,19 @@ or compile it with the following instructions:
 <details><summary>Linux</summary>
 <p>
 
-You can either compile with support for X11 or Wayland but
-[not both](https://github.com/fyne-io/fyne/issues/5471) at the moment.
+The simplest way to install Essentialist with its desktop launcher and icon on
+Linux is to use the Makefile like:
 
-To enable Wayland support, use:
-
-```shell
-go install --tags wayland ./cmd/essentialist
+```
+make install DESTDIR=$HOME/.local PREFIX=""
 ```
 
-To enable X11 support (default), use:
+Essentialist only support X11 (default) or Wayland but it
+[does not support both](https://github.com/fyne-io/fyne/issues/5471)
+at the moment. To enable Wayland support, use:
 
 ```shell
-go install ./cmd/essentialist
+make install DESTDIR=$HOME/.local PREFIX="" WAYLAND=true
 ```
 
 </p>
