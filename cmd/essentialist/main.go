@@ -15,7 +15,7 @@ func parseArgs() {
 
 func main() {
 	parseArgs()
-	application := app.NewWithID("essentialist")
+	application := app.NewWithID("io.github.essentialist_app.essentialist")
 	application.Settings().SetTheme(getTheme())
 	window := application.NewWindow("Essentialist")
 	window.Resize(fyne.NewSize(640, 480))
