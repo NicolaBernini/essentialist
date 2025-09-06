@@ -18,6 +18,7 @@ func main() {
 	application := app.NewWithID("io.github.essentialist_app.essentialist")
 	application.Settings().SetTheme(getTheme())
 	window := application.NewWindow("Essentialist")
+	// TODO: call window.SetIcon()
 	window.Resize(fyne.NewSize(640, 480))
 	NewApplication(application, window).Display(NewSplashScreen())
 	window.ShowAndRun()
