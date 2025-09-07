@@ -161,7 +161,7 @@ Similar project: <https://github.com/Yvee1/hascard>.
 ### How to update dependencies
 
 ```shell
-go get -u all
+go get -u ./...
 go mod tidy
 go run github.com/dennwc/flatpak-go-mod@latest -out cmd/essentialist/flatpak/ .
 ```
