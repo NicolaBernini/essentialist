@@ -18,6 +18,7 @@ FLASHDOWN_BIN=flashdown
 PREFIX?=/usr/local
 BINDIR?=$(PREFIX)/bin
 DATADIR?=$(PREFIX)/share
+METADIR?=$(DATADIR)/metainfo
 APPDIR?=$(DATADIR)/applications
 ICONSDIR?=$(DATADIR)/icons/hicolor/scalable/apps
 
@@ -41,6 +42,8 @@ install: all
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.desktop $(DESTDIR)$(APPDIR)/
 	install -d $(DESTDIR)$(ICONSDIR)
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.svg $(DESTDIR)$(ICONSDIR)/
+	install -d $(DESTDIR)$(METADIR)
+	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml $(DESTDIR)$(METADIR)/
 
 
 .PHONY: all clean install
