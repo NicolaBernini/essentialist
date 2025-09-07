@@ -1,5 +1,8 @@
 # Essentialist
 
+
+![logo](cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.png)
+
 Programs for [spaced repetition][1] using flashcards in [Markdown][2].
 
 - **Essentialist**: Application for desktops (Windows, MacOS and Linux) and mobile (Android)
