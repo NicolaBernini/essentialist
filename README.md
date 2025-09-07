@@ -71,19 +71,33 @@ or compile it with the following instructions:
 <details><summary>Linux</summary>
 <p>
 
-The simplest way to install Essentialist with its desktop launcher and icon on
-Linux is to use the Makefile like:
+In order to build Essentialist, install the following dependencies
+(Debian/Ubuntu):
+
+```
+sudo apt-get install libxrandr-dev libxcursor-dev libglx-dev libxi-dev libgl-dev libxxf86vm-dev
+```
+
+The simplest way to build and install Essentialist with its desktop launcher
+and icon on Linux is to use the Makefile like:
 
 ```
 make install DESTDIR=$HOME/.local PREFIX=""
 ```
 
-Essentialist only support X11 (default) or Wayland but it
-[does not support both](https://github.com/fyne-io/fyne/issues/5471)
-at the moment. To enable Wayland support, use:
+Essentialist [does not support](https://github.com/fyne-io/fyne/issues/5471)
+Xorg and Wayland at the same time. By default, Xorg is enabled. If you want to
+enable Wayland support, run:
 
 ```shell
 make install DESTDIR=$HOME/.local PREFIX="" WAYLAND=true
+```
+
+You can also simply build the binary with:
+
+```
+go generate ./cmd/essentialist
+go build ./cmd/essentialist
 ```
 
 </p>
@@ -170,5 +184,16 @@ go run github.com/dennwc/flatpak-go-mod@latest -out cmd/essentialist/flatpak/ .
 
 ### How to make a new version
 
-- Update the version number in `cmd/essentialist/FyneApp.toml` and `cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml`.
-- Create a tag like `vX.Y.Z` and push it. Increment X.Y.Z according to the [versioning guidelines](./.github/CONTRIBUTING.md)
+- Pick a new version X.Y.Z according to the [versioning guidelines](./.github/CONTRIBUTING.md).
+- Update the version number in various files and tag it.
+
+```shell
+VERSION=X.Y.Z
+sed -i -e 's/[0-9]\+\.[0-9]\+\.[0-9]\+/'$VERSION'/' \
+    cmd/essentialist/FyneApp.toml \
+    cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml \
+    cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml
+git add -u
+git commit -m "$VERSION"
+git tag v$VERSION
+```
