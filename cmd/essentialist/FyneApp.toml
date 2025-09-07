@@ -4,5 +4,5 @@ Website = "https://essentialist.app"
   Icon = "flatpak/io.github.essentialist_app.essentialist.png"
   Name = "Essentialist"
   ID = "io.github.essentialist_app.essentialist"
-  Version = "0.3.10"
+  Version = "0.3.11"
   Build = 1
