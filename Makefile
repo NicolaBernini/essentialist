@@ -24,6 +24,7 @@ ICONSDIR?=$(DATADIR)/icons/hicolor/scalable/apps
 all: $(ESSENTIALIST_BIN) $(FLASHDOWN_BIN)
 
 $(ESSENTIALIST_BIN):
+	$(GOCMD) generate ./cmd/essentialist
 	$(GOCMD) build -tags="$(GOTAGS)" -o $(ESSENTIALIST_BIN) ./cmd/essentialist
 
 $(FLASHDOWN_BIN):

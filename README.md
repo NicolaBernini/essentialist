@@ -93,6 +93,7 @@ make install DESTDIR=$HOME/.local PREFIX="" WAYLAND=true
 <p>
 
 ```shell
+go generate cmd/essentialist
 CGO_ENABLED=1 go build ./cmd/essentialist
 ./essentialist
 ```
@@ -104,6 +105,7 @@ CGO_ENABLED=1 go build ./cmd/essentialist
 <p>
 
 ```shell
+go generate cmd/essentialist
 go build -x -o essentialist.exe ./cmd/essentialist
 ```
 
