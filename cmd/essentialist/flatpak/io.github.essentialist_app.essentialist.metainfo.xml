@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>io.github.essentialist_app.essentialist</id>
-  
+
   <name>Essentialist</name>
   <summary>Minimalist flashcard app for seamless studying and note-taking in Markdown. 🧠</summary>
-  
+ 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
-  
   <description>
-    <p><b>The easiest way to take notes</b></p>
     <p>Your flashcard decks are just simple Markdown files, which means you can create cards directly while taking notes. This is a perfect workflow for students and anyone who takes notes and wants to quickly turn them into study material. Each card is defined by a simple H2 header (## Your Card Title).</p>
     <p>Because your decks are plain text files, they are:</p>
     <ul>
@@ -18,16 +16,14 @@
       <li>Editable with any editor: Use your favorite text editor to make changes.</li>
     </ul>
     <p>Essentialist supports a variety of Markdown features, including lists, tables, emojis, and basic text styling (italic and bold). Please note that image support is not yet available.</p>
-    <p><b>Privacy and Simplicity at the Core</b></p>
     <p>We strongly believe that you should be in control of your data. Essentialist doesn't perform any network operations. There's no cloud, no sync service, and no data collection. You can use an external app if you want to synchronize your cards and your scores.</p>
     <p>The user interface is minimalist to help you focus on your learning. It has robust keyboard bindings for quick navigation and interaction. For those who prefer the command line, there's a terminal app called flashdown.</p>
     <p>Essentialist is also available on Windows, macOS, and Android.</p>
   </description>
-  
+
   <launchable type="desktop-id">io.github.essentialist_app.essentialist.desktop</launchable>
-  
   <screenshots>
-    <screenshot type="default">
+    <screenshot>
       <caption>Screencast</caption>
       <video>
         <source>https://essentialist.app/screencast.webm</source>
@@ -37,7 +33,7 @@
       <caption>Home screen with the list of decks</caption>
       <image>https://essentialist.app/home.png</image>
     </screenshot>
-    <screenshot>
+    <screenshot type="default">
       <caption>A question and its answer</caption>
       <image>https://essentialist.app/question.png</image>
     </screenshot>
@@ -58,18 +54,33 @@
       <image>https://essentialist.app/question-dark.png</image>
     </screenshot>
   </screenshots>
-  
+
+  <provides>
+    <binary>essentialist</binary>
+  </provides>
+
+  <categories>
+    <category>Education</category>
+  </categories>
+  <icon type="remote" width="128" height="128">https://essentialist.app/icons/icon.png</icon>
+
+  <developer id="io.github.essentialist-app">
+   <name>Essentialist Authors</name>
+  <developer/>
+
   <url type="homepage">https://essentialist.app</url>
   <url type="bugtracker">https://github.com/essentialist-app/essentialist/issues</url>
+  <url type="contribute">https://github.com/essentialist-app/essentialist</url>
   <url type="vcs-browser">https://github.com/essentialist-app/essentialist</url>
 
-  <content_rating type="oars-1.1" />
+  <content_rating type="oars-1.1"/>
 
   <releases>
     <release version="0.3.10" date="2025-08-30">
       <description>
         <p>Initial release.</p>
       </description>
+      <url type="details">https://github.com/essentialist-app/essentialist/releases</url>
     </release>
   </releases>
 
