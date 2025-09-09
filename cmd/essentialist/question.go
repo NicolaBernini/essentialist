@@ -111,20 +111,18 @@ func card(md string) fyne.CanvasObject {
 }
 
 func (s *QuestionScreen) Show(app Application) {
-	window := app.Window()
-
 	topBar := newProgressTopBar(app, s.game)
 	question := card("### " + s.game.Question())
 	button := continueButton(app, s.game)
 
 	vbox := container.New(layout.NewVBoxLayout(), topBar, space(), question,
 		space(), button)
-	window.SetContent(vbox)
-	window.Canvas().SetOnTypedKey(s.keyHandler(app))
+	app.SetContent(vbox)
+	app.SetOnTypedKey(s.keyHandler(app))
 }
 
 func (s *QuestionScreen) Hide(app Application) {
-	app.Window().Canvas().SetOnTypedKey(nil)
+	app.SetOnTypedKey(nil)
 }
 
 type AnswerScreen struct {
@@ -218,7 +216,6 @@ func (s *AnswerScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 }
 
 func (s *AnswerScreen) Show(app Application) {
-	window := app.Window()
 	topBar := newProgressTopBar(app, s.game)
 
 	question := card("### " + s.game.Question())
@@ -228,10 +225,10 @@ func (s *AnswerScreen) Show(app Application) {
 	buttons := s.answersButton(app)
 	vbox := container.New(layout.NewVBoxLayout(), topBar, space(), question,
 		space(), line, space(), answer, space(), buttons)
-	window.SetContent(vbox)
-	window.Canvas().SetOnTypedKey(s.keyHandler(app))
+	app.SetContent(vbox)
+	app.SetOnTypedKey(s.keyHandler(app))
 }
 
 func (s *AnswerScreen) Hide(app Application) {
-	app.Window().Canvas().SetOnTypedKey(nil)
+	app.SetOnTypedKey(nil)
 }

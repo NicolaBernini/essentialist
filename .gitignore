@@ -1,5 +1,3 @@
 *.db
 cmd/essentialist/image_data.go
 .flatpak-builder/
-essentialist
-flashdown

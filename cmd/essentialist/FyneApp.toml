@@ -6,3 +6,5 @@ Website = "https://essentialist.app"
   ID = "io.github.essentialist_app.essentialist"
   Version = "0.3.12"
   Build = 1
+[Migrations]
+  fyneDo = true

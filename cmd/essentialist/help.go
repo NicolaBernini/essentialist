@@ -47,12 +47,11 @@ func helpMessage() *fyne.Container {
 }
 
 func (e *helpScreen) Show(app Application) {
-	window := app.Window()
 	topBar := newHelpTopBar(app)
 	center := container.NewVScroll(helpMessage())
-	window.SetContent(container.New(layout.NewBorderLayout(
+	app.SetContent(container.New(layout.NewBorderLayout(
 		topBar, nil, nil, nil), topBar, center))
-	window.Canvas().SetOnTypedKey(EscapeKeyHandler(app))
+	app.SetOnTypedKey(EscapeKeyHandler(app))
 }
 
 func (e *helpScreen) Hide(app Application) {}

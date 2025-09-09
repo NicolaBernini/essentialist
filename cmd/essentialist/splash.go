@@ -38,11 +38,11 @@ func (s *SplashScreen) Show(app Application) {
 		})
 		emptyContainer := container.New(layout.NewHBoxLayout(),
 			layout.NewSpacer(), welcomeButton, layout.NewSpacer())
-		app.Window().SetContent(emptyContainer)
+		app.SetContent(emptyContainer)
 		return
 	}
 	emptyContainer := container.New(layout.NewHBoxLayout(), layout.NewSpacer())
-	app.Window().SetContent(emptyContainer)
+	app.SetContent(emptyContainer)
 	go s.load(app) // load the games in the background
 }
 

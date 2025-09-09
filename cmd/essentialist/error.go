@@ -22,14 +22,14 @@ func ErrorKeyHandler(app Application) func(*fyne.KeyEvent) {
 			case fyne.KeyS:
 				app.Display(NewSettingsScreen())
 			case fyne.KeyQ, fyne.KeyEscape:
-				app.Window().Close()
+				app.Close()
 			}
 		} else {
 			switch key.Physical {
 			case fyne.HardwareKey{ScanCode: 39}: // S
 				app.Display(NewSettingsScreen())
 			case fyne.HardwareKey{ScanCode: 9}, fyne.HardwareKey{ScanCode: 24}: // Escape
-				app.Window().Close()
+				app.Close()
 			}
 		}
 	}
@@ -41,10 +41,10 @@ func (e *ErrorScreen) Show(app Application) {
 	errLabel.Wrapping = fyne.TextWrapBreak
 	vbox := container.New(layout.NewVBoxLayout(),
 		topBar, layout.NewSpacer(), errLabel)
-	app.Window().SetContent(vbox)
-	app.Window().Canvas().SetOnTypedKey(ErrorKeyHandler(app))
+	app.SetContent(vbox)
+	app.SetOnTypedKey(ErrorKeyHandler(app))
 }
 
 func (e *ErrorScreen) Hide(app Application) {
-	app.Window().Canvas().SetOnTypedKey(nil)
+	app.SetOnTypedKey(nil)
 }

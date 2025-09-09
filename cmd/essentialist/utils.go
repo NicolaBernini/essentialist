@@ -145,7 +145,7 @@ func newHomeTopBar(app Application, s *HomeScreen) *fyne.Container {
 		app.Display(NewHelpScreen())
 	})
 	quit := widget.NewButton("Quit", func() {
-		app.Window().Close()
+		app.Close()
 	})
 	return newTopBar("Home", start, help, settings, quit)
 }

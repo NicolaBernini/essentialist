@@ -31,7 +31,7 @@ func (s *HomeScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 		if key.Name != "" {
 			switch key.Name {
 			case fyne.KeyQ, fyne.KeyEscape:
-				app.Window().Close()
+				app.Close()
 			case fyne.KeyReturn:
 				s.startQuickSession(app)
 			case fyne.KeyH:
@@ -42,7 +42,7 @@ func (s *HomeScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 		} else {
 			switch key.Physical {
 			case fyne.HardwareKey{ScanCode: 9}, fyne.HardwareKey{ScanCode: 24}: // Escape
-				app.Window().Close()
+				app.Close()
 			case fyne.HardwareKey{ScanCode: 36}: // Enter
 				s.startQuickSession(app)
 			case fyne.HardwareKey{ScanCode: 39}: // S
@@ -130,11 +130,11 @@ func (s *HomeScreen) deckList(app Application) fyne.CanvasObject {
 func (s *HomeScreen) Show(app Application) {
 	topBar := newHomeTopBar(app, s)
 	list := s.deckList(app)
-	app.Window().SetContent(container.New(layout.NewBorderLayout(
-		topBar, nil, nil, nil), topBar, list))
-	app.Window().Canvas().SetOnTypedKey(s.keyHandler(app))
+	app.SetContent(container.New(layout.NewBorderLayout(
+			topBar, nil, nil, nil), topBar, list))
+	app.SetOnTypedKey(s.keyHandler(app))
 }
 
 func (s *HomeScreen) Hide(app Application) {
-	app.Window().Canvas().SetOnTypedKey(nil)
+	app.SetOnTypedKey(nil)
 }

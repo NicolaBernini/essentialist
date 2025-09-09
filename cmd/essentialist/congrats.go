@@ -17,7 +17,6 @@ func NewCongratsScreen(game *internal.Game) Screen {
 }
 
 func (s *CongratsScreen) Show(app Application) {
-	window := app.Window()
 	topBar := newProgressTopBar(app, s.game)
 	label := container.New(layout.NewCenterLayout(),
 		widget.NewLabel("Congratulations!"))
@@ -27,10 +26,10 @@ func (s *CongratsScreen) Show(app Application) {
 
 	box := container.New(layout.NewBorderLayout(topBar, button, nil, nil),
 		topBar, button, label)
-	window.SetContent(box)
-	window.Canvas().SetOnTypedKey(EscapeKeyHandler(app))
+	app.SetContent(box)
+	app.SetOnTypedKey(EscapeKeyHandler(app))
 }
 
 func (s *CongratsScreen) Hide(app Application) {
-	app.Window().Canvas().SetOnTypedKey(nil)
+	app.SetOnTypedKey(nil)
 }
