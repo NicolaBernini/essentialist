@@ -4,6 +4,12 @@
 # Go parameters
 GOCMD=go
 
+# Flatpak support
+FLATPAK ?= false
+ifeq ($(FLATPAK), true)
+	GOTAGS += flatpack
+endif
+
 # Wayland support
 WAYLAND ?= false
 ifeq ($(WAYLAND), true)
