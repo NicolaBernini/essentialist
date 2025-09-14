@@ -94,23 +94,37 @@ func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 	return repetitions
 }
 
-func (s *SettingsScreen) switchThemeButton(app Application) *widget.Button {
-	currentTheme := getThemeName()
-	var newTheme string
-	switch currentTheme {
-	case "light":
-		newTheme = "dark"
-	case "dark":
-		newTheme = "light"
-	default:
-		newTheme = "light"
+func (s *SettingsScreen) changeThemeSelector(app Application) *widget.Select {
+	selections := []string{
+		"Theme: user default",
+		"Theme: light",
+		"Theme: dark",
 	}
-	buttonLabel := fmt.Sprintf("Theme: %s", newTheme)
-	return widget.NewButton(buttonLabel, func() {
-		setThemeName(newTheme)
-		fyne.CurrentApp().Settings().SetTheme(getTheme())
-		app.Display(NewSettingsScreen())
-	})
+	values := []themeName{
+		defaultTheme,
+		lightTheme,
+		darkTheme,
+	}
+	onChange := func(selected string) {
+		for i, s := range selections {
+			if s == selected {
+				setThemeName(values[i])
+				fyne.CurrentApp().Settings().SetTheme(getTheme())
+				return
+			}
+		}
+	}
+	themeSelector := widget.NewSelect(selections, onChange)
+	themeSelector.Alignment = fyne.TextAlignCenter
+	currentTheme := getThemeName()
+	themeSelector.SetSelected(selections[0])
+	for i, t := range values {
+		if t == currentTheme {
+			themeSelector.SetSelected(selections[i])
+			break
+		}
+	}
+	return themeSelector
 }
 
 func (s *SettingsScreen) cleanUpStorageButton(app Application) *widget.Button {
@@ -147,7 +161,7 @@ func (s *SettingsScreen) Show(app Application) {
 	} else {
 		objects = append(objects, s.changeDirectoryButton(app))
 	}
-	objects = append(objects, s.switchThemeButton(app))
+	objects = append(objects, s.changeThemeSelector(app))
 	objects = append(objects, s.selectRepetition(app))
 	center := container.NewVScroll(container.New(layout.NewVBoxLayout(),
 		objects...))

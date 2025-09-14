@@ -21,35 +21,52 @@ import (
 	"github.com/essentialist-app/essentialist/internal"
 )
 
+type themeName string
+
 const (
 	cardsNbEntry   = "number of cards per session"
 	directoryEntry = "directory"
 	themeEntry     = "theme"
+
+	// possible themes in the settings
+	defaultTheme themeName = "user default"
+	lightTheme themeName = "light"
+	darkTheme themeName = "dark"
 )
 
 // overrideDirectory is used to specify a directory as an argument.
 var overrideDirectory = ""
 
-func getThemeName() string {
+type customTheme struct {
+	fyne.Theme
+	variant fyne.ThemeVariant
+}
+
+func (f *customTheme) Color(name fyne.ThemeColorName, _ fyne.ThemeVariant) color.Color {
+	return f.Theme.Color(name, f.variant)
+}
+
+func getThemeName() themeName {
 	prefs := fyne.CurrentApp().Preferences()
-	return prefs.StringWithFallback("theme", "light")
+	return themeName(prefs.StringWithFallback(themeEntry, string(defaultTheme)))
 }
 
 func getTheme() fyne.Theme {
-	prefs := fyne.CurrentApp().Preferences()
-	dir := prefs.String(themeEntry)
-	switch dir {
-	case "light":
-		return theme.LightTheme()
-	case "dark":
-		return theme.DarkTheme()
+	themeName := getThemeName()
+	switch themeName {
+	case lightTheme:
+    return &customTheme{Theme: theme.DefaultTheme(), variant: theme.VariantLight}
+	case darkTheme:
+    return &customTheme{Theme: theme.DefaultTheme(), variant: theme.VariantDark}
+	case defaultTheme:
+		return theme.DefaultTheme()
 	}
-	return theme.LightTheme()
+	return theme.DefaultTheme()
 }
 
-func setThemeName(name string) {
+func setThemeName(name themeName) {
 	prefs := fyne.CurrentApp().Preferences()
-	prefs.SetString(themeEntry, name)
+	prefs.SetString(themeEntry, string(name))
 }
 
 func makeDefaultDirectory() (fyne.URI, error) {
