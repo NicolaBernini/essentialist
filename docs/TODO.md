@@ -19,7 +19,7 @@
 -   [x] Release published with binaries
 -   [x] No known bugs
 -   [x] Add a quit button
--   [ ] Packages for flatpack or snap exists
+-   [x] Packages for flatpack or snap exists
 -   [ ] Arch AUR package
 
 ## App store launch milestone
