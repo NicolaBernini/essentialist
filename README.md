@@ -194,6 +194,6 @@ sed -i -e 's/[0-9]\+\.[0-9]\+\.[0-9]\+/'$VERSION'/' \
     cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml \
     cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml
 git add -u
-git commit -m "$VERSION"
+git commit -m "v$VERSION"
 git tag v$VERSION
 ```
