@@ -21,7 +21,7 @@ func main() {
 	application.Settings().SetTheme(getTheme())
 	window := application.NewWindow("Essentialist")
 	window.SetIcon(fyne.NewStaticResource("Icon.png", IconBytes))
-	// window.Resize(fyne.NewSize(640, 480))
+	window.Resize(fyne.NewSize(640, 480))
 	NewApplication(application, window).Display(NewSplashScreen())
 	window.ShowAndRun()
 }
