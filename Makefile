@@ -7,7 +7,7 @@ GOCMD=go
 # Flatpak support
 FLATPAK ?= false
 ifeq ($(FLATPAK), true)
-	GOTAGS += flatpack
+	GOTAGS += flatpak
 endif
 
 # Wayland support
