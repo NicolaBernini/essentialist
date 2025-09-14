@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	welcomeMessage = "Welcome to Essentialist. Please set the directory containing your flashcards."
+	welcomeMessage = "Please set the directory containing your flashcards."
 )
 
 type SplashScreen struct{}
@@ -27,18 +27,26 @@ func (s *SplashScreen) load(app Application) {
 	app.Display(NewHomeScreen(decks))
 }
 
+func newWelcomeTopBar(app Application) *fyne.Container {
+	home := widget.NewButton("Settings", func() {
+		app.Display(NewSettingsScreen())
+	})
+	return newTopBar("Welcome", home)
+}
+
 // Show an empty screen until the games are loaded, then shows HomeScreen.
 func (s *SplashScreen) Show(app Application) {
 	// Welcome message when the application is launched for the first time.
 	prefs := fyne.CurrentApp().Preferences()
 	dir := prefs.StringWithFallback("directory", "")
 	if dir == "" {
+		topBar := newWelcomeTopBar(app)
 		welcomeButton := widget.NewButton(welcomeMessage, func() {
 			app.Display(NewSettingsScreen())
 		})
-		emptyContainer := container.New(layout.NewHBoxLayout(),
-			layout.NewSpacer(), welcomeButton, layout.NewSpacer())
-		app.SetContent(emptyContainer)
+		center := container.NewVScroll(welcomeButton)
+		app.SetContent(container.New(layout.NewBorderLayout(
+			topBar, nil, nil, nil), topBar, center))
 		return
 	}
 	emptyContainer := container.New(layout.NewHBoxLayout(), layout.NewSpacer())
