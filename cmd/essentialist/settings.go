@@ -34,7 +34,7 @@ func (s *SettingsScreen) importDirectoryButton(app Application) *widget.Button {
 		app.Display(NewSplashScreen())
 	}
 	return widget.NewButton("Import Directory", func() {
-		dialog.NewFolderOpen(importCallback, app.Window()).Show()
+		dialog.ShowFolderOpen(importCallback, app.Window())
 	})
 }
 
