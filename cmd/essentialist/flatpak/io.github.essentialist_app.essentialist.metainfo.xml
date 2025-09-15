@@ -79,7 +79,6 @@
   <categories>
     <category>Education</category>
   </categories>
-  <icon type="remote" width="128" height="128">https://essentialist.app/icons/icon.png</icon>
 
   <developer id="io.github.essentialist-app">
    <name>Essentialist Authors</name>
