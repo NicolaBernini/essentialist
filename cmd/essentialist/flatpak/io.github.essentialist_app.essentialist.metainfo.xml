@@ -8,17 +8,29 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
   <description>
-    <p>Your flashcard decks are just simple Markdown files, which means you can create cards directly while taking notes. This is a perfect workflow for students and anyone who takes notes and wants to quickly turn them into study material. Each card is defined by a simple H2 header (## Your Card Title).</p>
+		<p>Your flashcard decks are just simple Markdown files, which means you can
+		create cards directly while taking notes. This is a perfect workflow for
+		students and anyone who takes notes and wants to quickly turn them into
+		study material. Each card is defined by a simple H2 header (## Your Card
+		Title).</p>
     <p>Because your decks are plain text files, they are:</p>
     <ul>
       <li>Easy to manage: You can organize them with any file manager.</li>
       <li>Future-proof: Plain text is a universal format.</li>
       <li>Editable with any editor: Use your favorite text editor to make changes.</li>
     </ul>
-    <p>Essentialist supports a variety of Markdown features, including lists, tables, emojis, and basic text styling (italic and bold). Please note that image support is not yet available.</p>
-    <p>We strongly believe that you should be in control of your data. Essentialist doesn't perform any network operations. There's no cloud, no sync service, and no data collection. You can use an external app if you want to synchronize your cards and your scores.</p>
-    <p>The user interface is minimalist to help you focus on your learning. It has robust keyboard bindings for quick navigation and interaction. For those who prefer the command line, there's a terminal app called flashdown.</p>
-    <p>Essentialist is also available on Windows, macOS, and Android.</p>
+		<p>Essentialist supports a variety of Markdown features, including lists,
+		tables, emojis, and basic text styling (italic and bold). Please note that
+		image support is not yet available.</p>
+		<p>We strongly believe that you should be in control of your data.
+		Essentialist doesn't perform any network operations. There's no cloud, no
+		sync service, and no data collection. You can use an external app if you
+		want to synchronize your cards and your scores.</p>
+		<p>The user interface is minimalist to help you focus on your learning. It
+		has robust keyboard bindings for quick navigation and interaction. For
+		those who prefer the command line, there's a terminal app called
+		flashdown.</p>
+    <p>Essentialist is also available on Windows, MacOS, and Android.</p>
   </description>
 
   <launchable type="desktop-id">io.github.essentialist_app.essentialist.desktop</launchable>
