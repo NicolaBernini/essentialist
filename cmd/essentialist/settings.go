@@ -151,7 +151,6 @@ func (s *SettingsScreen) newSettingsTopBar(app Application) *fyne.Container {
 }
 
 func (s *SettingsScreen) Show(app Application) {
-	window := app.Window()
 	topBar := s.newSettingsTopBar(app)
 
 	objects := make([]fyne.CanvasObject, 0)
@@ -165,9 +164,9 @@ func (s *SettingsScreen) Show(app Application) {
 	objects = append(objects, s.selectRepetition(app))
 	center := container.NewVScroll(container.New(layout.NewVBoxLayout(),
 		objects...))
-	window.SetContent(container.New(layout.NewBorderLayout(
+	app.SetContent(container.New(layout.NewBorderLayout(
 		topBar, nil, nil, nil), topBar, center))
-	window.Canvas().SetOnTypedKey(EscapeKeyHandler(app))
+	app.SetOnTypedKey(EscapeKeyHandler(app))
 }
 
 func (s *SettingsScreen) Hide(app Application) {
