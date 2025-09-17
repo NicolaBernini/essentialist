@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Essentialist
 Exec=essentialist
+StartupWMClass=Essentialist
 Icon=io.github.essentialist_app.essentialist
 Type=Application
 Categories=Education;
