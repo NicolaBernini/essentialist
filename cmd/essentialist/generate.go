@@ -10,7 +10,7 @@ import (
 
 func main() {
 	// The path to your PNG file. Change this as needed.
-	const pngFilePath = "flatpak/io.github.essentialist_app.essentialist-rocket.png"
+	const pngFilePath = "flatpak/io.github.essentialist_app.essentialist.png"
 	// The name of the output Go file.
 	const outputFilePath = "image_data.go"
 
