@@ -47,6 +47,7 @@ install: all
 	install -m 755 $(FLASHDOWN_BIN) $(DESTDIR)$(BINDIR)
 	install -d $(DESTDIR)$(APPDIR)
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.desktop $(DESTDIR)$(APPDIR)/
+	sed -i 's|Exec=essentialist|Exec=$(DESTDIR)$(BINDIR)/$(ESSENTIALIST_BIN)|' $(DESTDIR)$(APPDIR)/io.github.essentialist_app.essentialist.desktop
 	install -d $(DESTDIR)$(SVGICONSDIR)
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.svg $(DESTDIR)$(SVGICONSDIR)/
 	install -d $(DESTDIR)$(PNGICONSDIR)
