@@ -26,7 +26,8 @@ BINDIR?=$(PREFIX)/bin
 DATADIR?=$(PREFIX)/share
 METADIR?=$(DATADIR)/metainfo
 APPDIR?=$(DATADIR)/applications
-ICONSDIR?=$(DATADIR)/icons/hicolor/scalable/apps
+SVGICONSDIR?=$(DATADIR)/icons/hicolor/scalable/apps
+PNGICONSDIR?=$(DATADIR)/icons/hicolor/512x512/apps
 
 all: $(ESSENTIALIST_BIN) $(FLASHDOWN_BIN)
 
@@ -46,8 +47,10 @@ install: all
 	install -m 755 $(FLASHDOWN_BIN) $(DESTDIR)$(BINDIR)
 	install -d $(DESTDIR)$(APPDIR)
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.desktop $(DESTDIR)$(APPDIR)/
-	install -d $(DESTDIR)$(ICONSDIR)
-	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.svg $(DESTDIR)$(ICONSDIR)/
+	install -d $(DESTDIR)$(SVGICONSDIR)
+	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.svg $(DESTDIR)$(SVGICONSDIR)/
+	install -d $(DESTDIR)$(PNGICONSDIR)
+	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.png $(DESTDIR)$(PNGICONSDIR)/
 	install -d $(DESTDIR)$(METADIR)
 	install -m 644 cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml $(DESTDIR)$(METADIR)/
 
