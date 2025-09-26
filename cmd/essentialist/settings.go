@@ -1,15 +1,15 @@
 package main
 
 import (
-	"fmt"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 type SettingsScreen struct{}
@@ -33,7 +33,7 @@ func (s *SettingsScreen) importDirectoryButton(app Application) *widget.Button {
 		}
 		app.Display(NewSplashScreen())
 	}
-	return widget.NewButton("Import Directory", func() {
+	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "import_directory"}), func() {
 		dialog.ShowFolderOpen(importCallback, app.Window())
 	})
 }
@@ -50,20 +50,20 @@ func (s *SettingsScreen) changeDirectoryButton(app Application) *widget.Button {
 		setDirectory(d)
 		app.Display(NewSplashScreen())
 	}
-	return widget.NewButton("Change Directory", func() {
+	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "change_directory"}), func() {
 		dialog.NewFolderOpen(changeDirectoryCallback, app.Window()).Show()
 	})
 }
 
 func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 	selections := []string{
-		"10 cards",
-		"20 cards",
-		"30 cards",
-		"40 cards",
-		"50 cards",
-		"Remaining cards to learn",
-		"All cards",
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "10_cards"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "20_cards"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "30_cards"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "40_cards"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "50_cards"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "remaining_cards_to_learn"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "all_cards"}),
 	}
 	values := []int{
 		10,
@@ -96,9 +96,9 @@ func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 
 func (s *SettingsScreen) changeThemeSelector(app Application) *widget.Select {
 	selections := []string{
-		"Theme: user default",
-		"Theme: light",
-		"Theme: dark",
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_user_default"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_light"}),
+		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_dark"}),
 	}
 	values := []themeName{
 		defaultTheme,
@@ -137,17 +137,48 @@ func (s *SettingsScreen) cleanUpStorageButton(app Application) *widget.Button {
 			app.Display(NewErrorScreen(err))
 		}
 	}
-	label := fmt.Sprintf("Delete cards in %s/ ?", getDirectory().Name())
-	return widget.NewButton("Erase storage", func() {
-		dialog.ShowConfirm("Erase storage", label, cb, app.Window())
+	label := essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "delete_cards_in",
+		TemplateData: map[string]interface{}{
+			"Directory": getDirectory().Name(),
+		},
+	})
+	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "erase_storage"}), func() {
+		dialog.ShowConfirm(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "erase_storage"}), label, cb, app.Window())
 	})
 }
 
 func (s *SettingsScreen) newSettingsTopBar(app Application) *fyne.Container {
-	back := widget.NewButton("Home", func() {
+	back := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}), func() {
 		app.Display(NewSplashScreen())
 	})
-	return newTopBar("Settings", back)
+	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), back)
+}
+
+func (s *SettingsScreen) languageSelector(app Application) *widget.Select {
+	selections := []string{"English", "Español", "Français", "中文", "हिन्दी", "العربية"}
+	langCodes := []string{"en", "es", "fr", "zh", "hi", "ar"}
+
+	onChange := func(selected string) {
+		for i, s := range selections {
+			if s == selected {
+				app.Preferences().SetString("language", langCodes[i])
+				essentiali18n.SetLanguage(langCodes[i])
+				return
+			}
+		}
+	}
+
+	selector := widget.NewSelect(selections, onChange)
+	selector.Alignment = fyne.TextAlignCenter
+	currentLang := app.Preferences().StringWithFallback("language", "en")
+	for i, code := range langCodes {
+		if code == currentLang {
+			selector.SetSelected(selections[i])
+			break
+		}
+	}
+	return selector
 }
 
 func (s *SettingsScreen) Show(app Application) {
@@ -162,6 +193,7 @@ func (s *SettingsScreen) Show(app Application) {
 	}
 	objects = append(objects, s.changeThemeSelector(app))
 	objects = append(objects, s.selectRepetition(app))
+	objects = append(objects, s.languageSelector(app))
 	center := container.NewVScroll(container.New(layout.NewVBoxLayout(),
 		objects...))
 	app.SetContent(container.New(layout.NewBorderLayout(

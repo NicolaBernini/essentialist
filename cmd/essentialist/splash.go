@@ -7,10 +7,12 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 var (
-	welcomeMessage = "Please set the directory containing your flashcards."
+	welcomeMessage = ""
 )
 
 type SplashScreen struct{}
@@ -28,10 +30,10 @@ func (s *SplashScreen) load(app Application) {
 }
 
 func newWelcomeTopBar(app Application) *fyne.Container {
-	home := widget.NewButton("Settings", func() {
+	home := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), func() {
 		app.Display(NewSettingsScreen())
 	})
-	return newTopBar("Welcome", home)
+	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "welcome"}), home)
 }
 
 func (s *SplashScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
@@ -54,8 +56,8 @@ func (s *SplashScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 	}
 }
 
-// Show an empty screen until the games are loaded, then shows HomeScreen.
 func (s *SplashScreen) Show(app Application) {
+	welcomeMessage = essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "please_set_directory"})
 	// Welcome message when the application is launched for the first time.
 	prefs := fyne.CurrentApp().Preferences()
 	dir := prefs.StringWithFallback("directory", "")

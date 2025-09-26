@@ -18,7 +18,9 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 type themeName string
@@ -138,41 +140,48 @@ func newTopBar(leftText string, buttons ...fyne.CanvasObject) *fyne.Container {
 }
 
 func newHelpTopBar(app Application) *fyne.Container {
-	home := widget.NewButton("Home", func() {
+	home := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}), func() {
 		app.Display(NewSplashScreen())
 	})
-	return newTopBar("Help", home)
+	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "help"}), home)
 }
 
 func newErrorTopBar(app Application) *fyne.Container {
-	home := widget.NewButton("Settings", func() {
+	home := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), func() {
 		app.Display(NewSettingsScreen())
 	})
-	return newTopBar("Error", home)
+	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "error"}), home)
 }
 
 func newHomeTopBar(app Application, s *HomeScreen) *fyne.Container {
-	settings := widget.NewButton("Settings", func() {
+	settings := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), func() {
 		app.Display(NewSettingsScreen())
 	})
-	start := widget.NewButton("Start", func() {
+	start := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "start"}), func() {
 		s.startQuickSession(app)
 	})
-	help := widget.NewButton("Help", func() {
+	help := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "help"}), func() {
 		app.Display(NewHelpScreen())
 	})
-	quit := widget.NewButton("Quit", func() {
+	quit := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "quit"}), func() {
 		app.Close()
 	})
-	return newTopBar("Home", start, help, settings, quit)
+	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}), start, help, settings, quit)
 }
 
 func newProgressTopBar(app Application, game *internal.Game) *fyne.Container {
 	percent := game.Success()
 	current, total := game.Progress()
-	text := fmt.Sprintf("Session: %d/%d — Success: %.0f%% — %s",
-		current, total, percent, game.DeckName())
-	home := widget.NewButton("Home", func() {
+	text := essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{
+		MessageID: "session_stats",
+		TemplateData: map[string]interface{}{
+			"Current":  current,
+			"Total":    total,
+			"Success":  percent,
+			"DeckName": game.DeckName(),
+		},
+	})
+	home := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}), func() {
 		game.Save()
 		app.Display(NewSplashScreen())
 	})
@@ -195,7 +204,7 @@ func bottomButton(label string, cb func()) *fyne.Container {
 }
 
 func continueButton(app Application, game *internal.Game) *fyne.Container {
-	return bottomButton("See answer", func() {
+	return bottomButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "see_answer"}), func() {
 		app.Display(NewAnswerScreen(game))
 	})
 }

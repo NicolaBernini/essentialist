@@ -5,6 +5,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 )
 
 //go:generate go run generate.go
@@ -18,6 +19,9 @@ func parseArgs() {
 func main() {
 	parseArgs()
 	application := app.NewWithID("io.github.essentialist_app.essentialist")
+	lang := application.Preferences().StringWithFallback("language", "en")
+	i18n.SetLanguage(lang)
+
 	application.Settings().SetTheme(getTheme())
 	window := application.NewWindow("Essentialist")
 	icon := fyne.NewStaticResource("io.github.essentialist_app.essentialist.png", IconBytes)

@@ -8,7 +8,9 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 // Warning: decks are loaded on demand by the list widget
@@ -89,7 +91,12 @@ func (s *HomeScreen) updateDeckButton(app Application, label *widget.Label, i in
 
 func (s *HomeScreen) deckList(app Application) fyne.CanvasObject {
 	if len(s.decks) == 0 {
-		info := fmt.Sprintf("No deck found in %s", getDirectory().String())
+		info := essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{
+			MessageID: "no_deck_found",
+			TemplateData: map[string]interface{}{
+				"Directory": getDirectory().String(),
+			},
+		})
 		label := widget.NewLabel(info)
 		label.Wrapping = fyne.TextWrapBreak
 		return label
@@ -109,8 +116,13 @@ func (s *HomeScreen) deckList(app Application) fyne.CanvasObject {
 				if err != nil {
 					s.decks[i] = internal.NewEmptyDeck(
 						s.accessors[i].DeckName())
-					label.SetText(fmt.Sprintf("Failed to load %s: %s",
-						s.accessors[i].DeckName(), err))
+					label.SetText(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{
+						MessageID: "failed_to_load",
+						TemplateData: map[string]interface{}{
+							"Name":  s.accessors[i].DeckName(),
+							"Error": err,
+						},
+					}))
 					return
 				}
 			}
@@ -131,7 +143,7 @@ func (s *HomeScreen) Show(app Application) {
 	topBar := newHomeTopBar(app, s)
 	list := s.deckList(app)
 	app.SetContent(container.New(layout.NewBorderLayout(
-			topBar, nil, nil, nil), topBar, list))
+		topBar, nil, nil, nil), topBar, list))
 	app.SetOnTypedKey(s.keyHandler(app))
 }
 

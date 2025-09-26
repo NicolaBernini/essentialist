@@ -5,7 +5,9 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 type CongratsScreen struct {
@@ -19,8 +21,8 @@ func NewCongratsScreen(game *internal.Game) Screen {
 func (s *CongratsScreen) Show(app Application) {
 	topBar := newProgressTopBar(app, s.game)
 	label := container.New(layout.NewCenterLayout(),
-		widget.NewLabel("Congratulations!"))
-	button := bottomButton("Press to continue", func() {
+		widget.NewLabel(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "congratulations"})))
+	button := bottomButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "press_to_continue"}), func() {
 		app.Display(NewSplashScreen())
 	})
 

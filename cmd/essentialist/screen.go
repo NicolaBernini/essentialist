@@ -11,6 +11,8 @@ type Application interface {
 	SetContent(o fyne.CanvasObject)
 	SetOnTypedKey(func(*fyne.KeyEvent))
 	Close()
+	Refresh()
+	Preferences() fyne.Preferences
 }
 
 type Screen interface {
@@ -46,6 +48,17 @@ func (a *application) Window() fyne.Window {
 // Close terminate the application
 func (a *application) Close() {
 	a.win.Close()
+}
+
+func (a *application) Preferences() fyne.Preferences {
+	return a.app.Preferences()
+}
+
+// Refresh reloads the current screen
+func (a *application) Refresh() {
+	if a.screen != nil {
+		a.screen.Show(a)
+	}
 }
 
 // SetOnTypedKey changes the keyboard shortcuts

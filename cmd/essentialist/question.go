@@ -9,7 +9,9 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
+	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
+	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 type maxWidthCenterLayout struct {
@@ -141,12 +143,12 @@ func (s *AnswerScreen) answersButton(app Application) *fyne.Container {
 			})
 	}
 	buttons := []fyne.CanvasObject{
-		bt("Total blackout", internal.TotalBlackout),
-		bt("Perfect recall", internal.PerfectRecall),
-		bt("Incorrect difficult", internal.IncorrectDifficult),
-		bt("Correct difficult", internal.CorrectDifficult),
-		bt("Incorrect easy", internal.IncorrectEasy),
-		bt("Correct easy", internal.CorrectEasy),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "total_blackout"}), internal.TotalBlackout),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "perfect_recall"}), internal.PerfectRecall),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "incorrect_difficult"}), internal.IncorrectDifficult),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "correct_difficult"}), internal.CorrectDifficult),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "incorrect_easy"}), internal.IncorrectEasy),
+		bt(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "correct_easy"}), internal.CorrectEasy),
 	}
 	return container.New(layout.NewGridLayout(2), buttons...)
 }
