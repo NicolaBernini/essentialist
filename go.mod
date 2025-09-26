@@ -17,6 +17,7 @@ require (
 	fyne.io/systray v1.11.0 // indirect
 	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/MichaelMure/go-term-text v0.3.1 // indirect
+	github.com/Xuanwo/go-locale v1.1.3 // indirect
 	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect

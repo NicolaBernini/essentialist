@@ -7,9 +7,8 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
-	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
+	"github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 	"github.com/essentialist-app/essentialist/internal"
-	"github.com/nicksnyder/go-i18n/v2/i18n"
 )
 
 type SettingsScreen struct{}
@@ -33,7 +32,7 @@ func (s *SettingsScreen) importDirectoryButton(app Application) *widget.Button {
 		}
 		app.Display(NewSplashScreen())
 	}
-	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "import_directory"}), func() {
+	return widget.NewButton(i18n.MustLocalize("import_directory"), func() {
 		dialog.ShowFolderOpen(importCallback, app.Window())
 	})
 }
@@ -50,20 +49,20 @@ func (s *SettingsScreen) changeDirectoryButton(app Application) *widget.Button {
 		setDirectory(d)
 		app.Display(NewSplashScreen())
 	}
-	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "change_directory"}), func() {
+	return widget.NewButton(i18n.MustLocalize("change_directory"), func() {
 		dialog.NewFolderOpen(changeDirectoryCallback, app.Window()).Show()
 	})
 }
 
 func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 	selections := []string{
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "10_cards"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "20_cards"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "30_cards"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "40_cards"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "50_cards"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "remaining_cards_to_learn"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "all_cards"}),
+		i18n.MustLocalize("10_cards"),
+		i18n.MustLocalize("20_cards"),
+		i18n.MustLocalize("30_cards"),
+		i18n.MustLocalize("40_cards"),
+		i18n.MustLocalize("50_cards"),
+		i18n.MustLocalize("remaining_cards_to_learn"),
+		i18n.MustLocalize("all_cards"),
 	}
 	values := []int{
 		10,
@@ -96,9 +95,9 @@ func (s *SettingsScreen) selectRepetition(app Application) *widget.Select {
 
 func (s *SettingsScreen) changeThemeSelector(app Application) *widget.Select {
 	selections := []string{
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_user_default"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_light"}),
-		essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "theme_dark"}),
+		i18n.MustLocalize("theme_user_default"),
+		i18n.MustLocalize("theme_light"),
+		i18n.MustLocalize("theme_dark"),
 	}
 	values := []themeName{
 		defaultTheme,
@@ -137,22 +136,17 @@ func (s *SettingsScreen) cleanUpStorageButton(app Application) *widget.Button {
 			app.Display(NewErrorScreen(err))
 		}
 	}
-	label := essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{
-		MessageID: "delete_cards_in",
-		TemplateData: map[string]interface{}{
-			"Directory": getDirectory().Name(),
-		},
-	})
-	return widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "erase_storage"}), func() {
-		dialog.ShowConfirm(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "erase_storage"}), label, cb, app.Window())
+	label := i18n.MustLocalize("delete_cards_in", "Directory", getDirectory().Name())
+	return widget.NewButton(i18n.MustLocalize("erase_storage"), func() {
+		dialog.ShowConfirm(i18n.MustLocalize("erase_storage"), label, cb, app.Window())
 	})
 }
 
 func (s *SettingsScreen) newSettingsTopBar(app Application) *fyne.Container {
-	back := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "home"}), func() {
+	back := widget.NewButton(i18n.MustLocalize("home"), func() {
 		app.Display(NewSplashScreen())
 	})
-	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), back)
+	return newTopBar(i18n.MustLocalize("settings"), back)
 }
 
 func (s *SettingsScreen) languageSelector(app Application) *widget.Select {
@@ -163,7 +157,7 @@ func (s *SettingsScreen) languageSelector(app Application) *widget.Select {
 		for i, s := range selections {
 			if s == selected {
 				app.Preferences().SetString("language", langCodes[i])
-				essentiali18n.SetLanguage(langCodes[i])
+				i18n.SetLanguage(langCodes[i])
 				return
 			}
 		}

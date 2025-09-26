@@ -5,8 +5,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
-	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 )
 
 const (
@@ -42,7 +41,7 @@ func NewHelpScreen() Screen {
 }
 
 func helpMessage() *fyne.Container {
-	richText := widget.NewRichTextFromMarkdown(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "help_content"}))
+	richText := widget.NewRichTextFromMarkdown(i18n.MustLocalize("help_content"))
 	width := richText.MinSize().Width
 	richText.Wrapping = fyne.TextWrapWord
 	return container.New(NewMaxWidthCenterLayout(width), richText)

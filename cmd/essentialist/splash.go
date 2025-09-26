@@ -7,8 +7,7 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	essentiali18n "github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
-	"github.com/nicksnyder/go-i18n/v2/i18n"
+	"github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 )
 
 var (
@@ -30,10 +29,10 @@ func (s *SplashScreen) load(app Application) {
 }
 
 func newWelcomeTopBar(app Application) *fyne.Container {
-	home := widget.NewButton(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "settings"}), func() {
+	home := widget.NewButton(i18n.MustLocalize("settings"), func() {
 		app.Display(NewSettingsScreen())
 	})
-	return newTopBar(essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "welcome"}), home)
+	return newTopBar(i18n.MustLocalize("welcome"), home)
 }
 
 func (s *SplashScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
@@ -57,7 +56,7 @@ func (s *SplashScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 }
 
 func (s *SplashScreen) Show(app Application) {
-	welcomeMessage = essentiali18n.Localizer.MustLocalize(&i18n.LocalizeConfig{MessageID: "please_set_directory"})
+	welcomeMessage = i18n.MustLocalize("please_set_directory")
 	// Welcome message when the application is launched for the first time.
 	prefs := fyne.CurrentApp().Preferences()
 	dir := prefs.StringWithFallback("directory", "")
