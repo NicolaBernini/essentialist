@@ -188,6 +188,10 @@ func (s *SettingsScreen) Show(app Application) {
 	objects = append(objects, s.changeThemeSelector(app))
 	objects = append(objects, s.selectRepetition(app))
 	objects = append(objects, s.languageSelector(app))
+	aboutButton := widget.NewButton(i18n.MustLocalize("about"), func() {
+		app.Display(NewAboutScreen())
+	})
+	objects = append(objects, aboutButton)
 	center := container.NewVScroll(container.New(layout.NewVBoxLayout(),
 		objects...))
 	app.SetContent(container.New(layout.NewBorderLayout(

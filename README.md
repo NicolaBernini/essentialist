@@ -191,8 +191,9 @@ go run github.com/dennwc/flatpak-go-mod@latest -out cmd/essentialist/flatpak/ .
 VERSION=X.Y.Z
 sed -i -e 's/[0-9]\+\.[0-9]\+\.[0-9]\+/'$VERSION'/' \
     cmd/essentialist/FyneApp.toml \
-    cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml \
+    cmd/essentialist/about.go \
     cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml
+    cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml \
 git add -u
 git commit -m "v$VERSION"
 git tag v$VERSION
