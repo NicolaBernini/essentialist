@@ -154,21 +154,21 @@ func (s *SettingsScreen) languageSelector(app Application) *widget.Select {
 	langCodes := []string{"en", "es", "fr", "zh", "hi", "ar"}
 
 	onChange := func(selected string) {
-		for i, s := range selections {
-			if s == selected {
+		for i, lang := range selections {
+			if lang == selected {
 				app.Preferences().SetString("language", langCodes[i])
 				i18n.SetLanguage(langCodes[i])
+				app.Display(s)
 				return
 			}
 		}
 	}
-
 	selector := widget.NewSelect(selections, onChange)
 	selector.Alignment = fyne.TextAlignCenter
 	currentLang := app.Preferences().StringWithFallback("language", "en")
 	for i, code := range langCodes {
 		if code == currentLang {
-			selector.SetSelected(selections[i])
+			selector.Selected = selections[i]
 			break
 		}
 	}
