@@ -52,7 +52,7 @@ func (e *helpScreen) Show(app Application) {
 	center := container.NewVScroll(helpMessage())
 	app.SetContent(container.New(layout.NewBorderLayout(
 		topBar, nil, nil, nil), topBar, center))
-	app.SetOnTypedKey(EscapeKeyHandler(app))
+	app.SetOnTypedKey(EscapeKeyHandler(app, NewSplashScreen()))
 }
 
 func (e *helpScreen) Hide(app Application) {}

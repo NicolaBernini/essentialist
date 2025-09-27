@@ -346,17 +346,17 @@ func loadDir(dir fyne.URI) ([]internal.DeckAccessor, error) {
 	}
 }
 
-func EscapeKeyHandler(app Application) func(*fyne.KeyEvent) {
+func EscapeKeyHandler(app Application, screen Screen) func(*fyne.KeyEvent) {
 	return func(key *fyne.KeyEvent) {
 		if key.Name != "" {
 			switch key.Name {
 			case fyne.KeyQ, fyne.KeyEscape:
-				app.Display(NewSplashScreen())
+				app.Display(screen)
 			}
 		} else {
 			switch key.Physical {
 			case fyne.HardwareKey{ScanCode: 9}, fyne.HardwareKey{ScanCode: 24}: // Escape
-				app.Display(NewSplashScreen())
+				app.Display(screen)
 			}
 		}
 	}

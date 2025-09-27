@@ -196,7 +196,7 @@ func (s *SettingsScreen) Show(app Application) {
 		objects...))
 	app.SetContent(container.New(layout.NewBorderLayout(
 		topBar, nil, nil, nil), topBar, center))
-	app.SetOnTypedKey(EscapeKeyHandler(app))
+	app.SetOnTypedKey(EscapeKeyHandler(app, NewSplashScreen()))
 }
 
 func (s *SettingsScreen) Hide(app Application) {
