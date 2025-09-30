@@ -21,6 +21,7 @@ type Card struct {
 	Question string
 	Answer   string
 	DeckName string
+	Deck     *Deck
 	Meta     *Meta
 }
 
@@ -62,12 +63,12 @@ func splitCards(md string) ([]string, []int) {
 	return cards, cardsLineNb
 }
 
-func parseCards(md string) ([]Card, error) {
+func parseCards(md string, deckPath string) ([]Card, error) {
 	cards := make([]Card, 0)
 
 	sheets, lines := splitCards(md)
 	for i, sheet := range sheets {
-		card, err := loadCard(sheet)
+		card, err := loadCard(sheet, deckPath)
 		if err == errCardEmpty {
 			continue
 		} else if err != nil {
@@ -78,12 +79,12 @@ func parseCards(md string) ([]Card, error) {
 	return cards, nil
 }
 
-func readCards(r io.Reader) ([]Card, error) {
+func readCards(r io.Reader, deckPath string) ([]Card, error) {
 	dat, err := ioutil.ReadAll(r)
 	if err != nil {
 		return nil, err
 	}
-	return parseCards(string(dat))
+	return parseCards(string(dat), deckPath)
 }
 
 func trim(s string) string {
@@ -91,7 +92,7 @@ func trim(s string) string {
 }
 
 // loadCard parse a card description
-func loadCard(md string) (c Card, err error) {
+func loadCard(md string, deckPath string) (c Card, err error) {
 	md = trim(md)
 	if md == "" {
 		return c, errCardEmpty
@@ -109,6 +110,16 @@ func loadCard(md string) (c Card, err error) {
 		return c, errInvalidCard
 	}
 	c.Answer = trim(sheets[1])
+
+	c.Question, err = rewriteImagePaths(c.Question, deckPath)
+	if err != nil {
+		return c, err
+	}
+	c.Answer, err = rewriteImagePaths(c.Answer, deckPath)
+	if err != nil {
+		return c, err
+	}
+
 	c.Meta = NewMeta(c)
 	return c, nil
 }

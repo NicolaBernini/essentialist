@@ -31,36 +31,43 @@ func (f *fyneRenderer) Render(w io.Writer, source []byte, n ast.Node) error {
 func (f *fyneRenderer) AddOptions(...renderer.Option) {
 }
 
-// NewRichTextFromMarkdown configures a RichText widget by parsing the provided markdown content.
-//
-// Since: 2.1
-func NewRichTextFromMarkdown(content string) *widget.RichText {
-	return widget.NewRichText(parseMarkdown(content)...)
+// NewRichTextFromMarkdownAt configures a RichText widget by parsing the provided markdown content.
+// Complete image path with specified pathPrefix.
+func NewRichTextFromMarkdownAt(content string, pathPrefix string) *widget.RichText {
+	return widget.NewRichText(parseMarkdown(content, pathPrefix)...)
 }
 
-type markdownRenderer []widget.RichTextSegment
+// NewRichTextFromMarkdown configures a RichText widget by parsing the provided markdown content.
+func NewRichTextFromMarkdown(content string) *widget.RichText {
+	return widget.NewRichText(parseMarkdown(content, "")...)
+}
+
+type markdownRenderer struct {
+	path     string
+	segments []widget.RichTextSegment
+}
 
 func (m *markdownRenderer) AddOptions(...renderer.Option) {}
 
 func (m *markdownRenderer) Render(_ io.Writer, source []byte, n ast.Node) error {
-	segs, err := renderNode(source, n, false)
-	*m = segs
+	segs, err := renderNode(source, n, m.path, false)
+	m.segments = segs
 	return err
 }
 
-func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSegment, error) {
+func renderNode(source []byte, n ast.Node, path string, blockquote bool) ([]widget.RichTextSegment, error) {
 	switch t := n.(type) {
 	case *ast.Document:
-		return renderChildren(source, n, blockquote)
+		return renderChildren(source, n, path, blockquote)
 	case *ast.Paragraph:
-		children, err := renderChildren(source, n, blockquote)
+		children, err := renderChildren(source, n, path, blockquote)
 		if !blockquote {
 			linebreak := &widget.TextSegment{Style: widget.RichTextStyleParagraph}
 			children = append(children, linebreak)
 		}
 		return children, err
 	case *ast.List:
-		items, err := renderChildren(source, n, blockquote)
+		items, err := renderChildren(source, n, path, blockquote)
 		indentation := 0
 		for parent := n.Parent(); parent != nil; parent = parent.Parent() {
 			if _, ok := parent.(*ast.List); ok {
@@ -72,10 +79,10 @@ func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSe
 			&ListSegment{Items: items, IndentationLevel: indentation, Ordered: t.Marker != '*' && t.Marker != '-' && t.Marker != '+'},
 		}, err
 	case *ast.ListItem:
-		texts, err := renderChildren(source, n, blockquote)
+		texts, err := renderChildren(source, n, path, blockquote)
 		return []widget.RichTextSegment{&widget.ParagraphSegment{Texts: texts}}, err
 	case *ast.TextBlock:
-		return renderChildren(source, n, blockquote)
+		return renderChildren(source, n, path, blockquote)
 	case *ast.Heading:
 		text := forceIntoHeadingText(source, n)
 		switch t.Level {
@@ -131,7 +138,7 @@ func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSe
 		}
 		return []widget.RichTextSegment{&widget.TextSegment{Style: widget.RichTextStyleInline, Text: text}}, nil
 	case *ast.Blockquote:
-		return renderChildren(source, n, true)
+		return renderChildren(source, n, path, true)
 	case *ast.Image:
 		dest := string(t.Destination)
 		u, err := storage.ParseURI(dest)
@@ -140,14 +147,14 @@ func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSe
 		}
 		return []widget.RichTextSegment{&widget.ImageSegment{Source: u, Title: string(t.Title), Alignment: fyne.TextAlignCenter}}, nil
 	case *east.TableCell:
-		segs, err := renderChildren(source, n, blockquote)
+		segs, err := renderChildren(source, n, path, blockquote)
 		if err != nil {
 			return nil, err
 		}
 		return []widget.RichTextSegment{NewTableCell(widget.NewRichText(segs...))}, nil
 
 	case *east.TableHeader:
-		segs, err := renderChildren(source, n, blockquote)
+		segs, err := renderChildren(source, n, path, blockquote)
 		if err != nil {
 			return nil, err
 		}
@@ -161,7 +168,7 @@ func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSe
 		}
 		return []widget.RichTextSegment{&TableRow{cells: cells}}, nil
 	case *east.TableRow:
-		segs, err := renderChildren(source, n, blockquote)
+		segs, err := renderChildren(source, n, path, blockquote)
 		if err != nil {
 			return nil, err
 		}
@@ -175,7 +182,7 @@ func renderNode(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSe
 		}
 		return []widget.RichTextSegment{&TableRow{cells: cells}}, nil
 	case *east.Table:
-		segs, err := renderChildren(source, n, blockquote)
+		segs, err := renderChildren(source, n, path, blockquote)
 		if err != nil {
 			return nil, err
 		}
@@ -203,13 +210,13 @@ func suffixSpaceIfAppropriate(text string, n ast.Node) string {
 	return text
 }
 
-func renderChildren(source []byte, n ast.Node, blockquote bool) ([]widget.RichTextSegment, error) {
+func renderChildren(source []byte, n ast.Node, path string, blockquote bool) ([]widget.RichTextSegment, error) {
 	children := make([]widget.RichTextSegment, 0, n.ChildCount())
 	for childCount, child := n.ChildCount(), n.FirstChild(); childCount > 0; childCount-- {
 		if child == nil {
 			continue
 		}
-		segs, err := renderNode(source, child, blockquote)
+		segs, err := renderNode(source, child, path, blockquote)
 		if err != nil {
 			return children, err
 		}
@@ -247,8 +254,8 @@ func forceIntoHeadingText(source []byte, n ast.Node) string {
 	return text.String()
 }
 
-func parseMarkdown(content string) []widget.RichTextSegment {
-	r := markdownRenderer{}
+func parseMarkdown(content string, path string) []widget.RichTextSegment {
+	r := markdownRenderer{path: path}
 	md := goldmark.New(
 		goldmark.WithExtensions(
 			extension.Table,
@@ -259,7 +266,7 @@ func parseMarkdown(content string) []widget.RichTextSegment {
 	if err != nil {
 		fyne.LogError("Failed to parse markdown", err)
 	}
-	return r
+	return r.segments
 }
 
 type (

@@ -104,8 +104,8 @@ func (s *QuestionScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 }
 
 // TODO: make the test selectable
-func card(md string) fyne.CanvasObject {
-	richText := NewRichTextFromMarkdown(md)
+func card(md string, path string) fyne.CanvasObject {
+	richText := NewRichTextFromMarkdownAt(md, path)
 	width := richText.MinSize().Width
 	richText.Wrapping = fyne.TextWrapWord
 	return container.New(NewMaxWidthCenterLayout(width), richText)
@@ -113,7 +113,8 @@ func card(md string) fyne.CanvasObject {
 
 func (s *QuestionScreen) Show(app Application) {
 	topBar := newProgressTopBar(app, s.game)
-	question := card("### " + s.game.Question())
+	currentCard := s.game.CurrentCard()
+	question := card("### "+currentCard.Question, currentCard.Deck.Path)
 	button := continueButton(app, s.game)
 
 	vbox := container.New(layout.NewVBoxLayout(), topBar, space(), question,
@@ -219,9 +220,10 @@ func (s *AnswerScreen) keyHandler(app Application) func(*fyne.KeyEvent) {
 func (s *AnswerScreen) Show(app Application) {
 	topBar := newProgressTopBar(app, s.game)
 
-	question := card("### " + s.game.Question())
+	currentCard := s.game.CurrentCard()
+	question := card("### "+currentCard.Question, currentCard.Deck.Path)
 	line := canvas.NewLine(color.Gray16{0xaaaa})
-	answer := card(s.game.Answer())
+	answer := card(currentCard.Answer, currentCard.Deck.Path)
 
 	buttons := s.answersButton(app)
 	vbox := container.New(layout.NewVBoxLayout(), topBar, space(), question,

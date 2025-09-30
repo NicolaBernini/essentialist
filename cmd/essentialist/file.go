@@ -38,6 +38,10 @@ func (u *uriDeckAccessor) DeckName() string {
 	return u.deck.Name()
 }
 
+func (u *uriDeckAccessor) Path() string {
+	return u.deck.Path()
+}
+
 func NewDeckAccessor(deck, db fyne.URI) internal.DeckAccessor {
 	return &uriDeckAccessor{
 		deck: deck,

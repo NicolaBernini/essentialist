@@ -64,6 +64,13 @@ func NewGame(cardsNb int, decks ...*Deck) *Game {
 	return game
 }
 
+func (g *Game) CurrentCard() *Card {
+	if len(g.cards) == 0 {
+		return nil
+	}
+	return &g.cards[g.index]
+}
+
 // Question returns the next question to answer. Idempotent.
 func (g *Game) Question() string {
 	if len(g.cards) == 0 {

@@ -10,6 +10,7 @@ import (
 // DeckAccessor abstract IO operations around Deck handling.
 type DeckAccessor interface {
 	DeckName() string
+	Path() string
 	CardsReader() (io.ReadCloser, error)
 	MetaReader() (io.ReadCloser, error)
 	MetaWriter() (io.WriteCloser, error)
@@ -21,6 +22,10 @@ type fileAccessor struct {
 
 func newFileDeckAccessor(filename string) DeckAccessor {
 	return &fileAccessor{filename}
+}
+
+func (f *fileAccessor) Path() string {
+	return f.filename
 }
 
 func (f *fileAccessor) metaFile() string {

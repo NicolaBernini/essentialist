@@ -13,17 +13,18 @@ type MetaMap map[Digest]*Meta
 type Deck struct {
 	Cards      []Card
 	Name       string
+	Path       string
 	MetaWriter func() (io.WriteCloser, error)
 }
 
-func loadCards(accessor DeckAccessor) ([]Card, error) {
+func loadCards(accessor DeckAccessor, deckPath string) ([]Card, error) {
 	cardReader, err := accessor.CardsReader()
 	if err != nil {
 		return nil, err
 	}
 	defer cardReader.Close()
 
-	cards, err := readCards(cardReader)
+	cards, err := readCards(cardReader, deckPath)
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +89,14 @@ func NewDeckFromFile(filename string) (*Deck, error) {
 
 // NewDeck reads a Deck from DeckAccessor
 func NewDeck(accessor DeckAccessor) (*Deck, error) {
-	cards, err := loadCards(accessor)
+	deck := &Deck{
+		Cards:      []Card{},
+		Name:       accessor.DeckName(),
+		Path:       accessor.Path(),
+		MetaWriter: accessor.MetaWriter,
+	}
+
+	cards, err := loadCards(accessor, deck.Path)
 	if err != nil {
 		return nil, err
 	}
@@ -100,6 +108,7 @@ func NewDeck(accessor DeckAccessor) (*Deck, error) {
 	deckName := accessor.DeckName()
 	for i := range cards {
 		cards[i].DeckName = deckName
+		cards[i].Deck = deck
 		hash := Hash(cards[i])
 		meta, ok := metaMap[hash]
 		if ok {
@@ -108,12 +117,8 @@ func NewDeck(accessor DeckAccessor) (*Deck, error) {
 			cards[i].Meta = NewMeta(cards[i])
 		}
 	}
-
-	return &Deck{
-		Cards:      cards,
-		Name:       accessor.DeckName(),
-		MetaWriter: accessor.MetaWriter,
-	}, nil
+	deck.Cards = cards
+	return deck, nil
 }
 
 func ShuffleCards(cards []Card) []Card {
