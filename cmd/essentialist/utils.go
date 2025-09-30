@@ -171,11 +171,12 @@ func newHomeTopBar(app Application, s *HomeScreen) *fyne.Container {
 func newProgressTopBar(app Application, game *internal.Game) *fyne.Container {
 	percent := game.Success()
 	current, total := game.Progress()
-	text := i18n.MustLocalize("session_stats",
-		"Current", current,
-		"Total", total,
-		"Success", percent,
-		"DeckName", game.DeckName(),
+	format := i18n.MustLocalize("session_stats")
+	text := fmt.Sprintf(format,
+		current,
+		total,
+		percent,
+		game.DeckName(),
 	)
 	home := widget.NewButton(i18n.MustLocalize("home"), func() {
 		game.Save()
