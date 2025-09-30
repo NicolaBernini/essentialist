@@ -150,8 +150,8 @@ func (s *SettingsScreen) newSettingsTopBar(app Application) *fyne.Container {
 }
 
 func (s *SettingsScreen) languageSelector(app Application) *widget.Select {
-	selections := []string{"English", "Español", "Français", "中文"}
-	langCodes := []string{"en", "es", "fr", "zh"}
+	selections := []string{"Deutsch", "English", "Español", "Français", "Italiano", "日本語", "한국어", "中文", "繁體中文"}
+	langCodes := []string{"de", "en", "es", "fr", "it", "ja", "ko", "zh", "zh-TW"}
 
 	onChange := func(selected string) {
 		for i, lang := range selections {
