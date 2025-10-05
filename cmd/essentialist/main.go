@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "embed"
 	"os"
 
 	"fyne.io/fyne/v2"
@@ -8,7 +9,8 @@ import (
 	"github.com/essentialist-app/essentialist/cmd/essentialist/i18n"
 )
 
-//go:generate go run generate.go
+//go:embed licenses.md
+var iconBytes []byte
 
 func parseArgs() {
 	if len(os.Args) == 2 {
@@ -24,7 +26,7 @@ func main() {
 
 	application.Settings().SetTheme(getTheme())
 	window := application.NewWindow("Essentialist")
-	icon := fyne.NewStaticResource("io.github.essentialist_app.essentialist.png", IconBytes)
+	icon := fyne.NewStaticResource("io.github.essentialist_app.essentialist.png", iconBytes)
 	application.SetIcon(icon)
 	window.Resize(fyne.NewSize(640, 480))
 	NewApplication(application, window).Display(NewSplashScreen())

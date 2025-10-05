@@ -23,9 +23,6 @@ jobs:
     - name: Install X11 headers
       run: sudo apt-get install -y libgl1-mesa-dev xorg-dev
 
-    - name: Generate static data
-      run: go generate ./cmd/essentialist
-
     - name: Build essentialist
       run: go build -o ./essentialist-linux ./cmd/essentialist
 
@@ -71,9 +68,6 @@ jobs:
     - name: Install fyne
       run: go install fyne.io/fyne/v2/cmd/fyne@latest
 
-    - name: Generate static data
-      run: go generate ./cmd/essentialist
-
     - name: Build essentialist
       run: cd cmd/essentialist && ~/go/bin/fyne package -os android && cp Essentialist.apk ../.. && cd -
       env:
@@ -94,17 +88,11 @@ jobs:
         with:
           go-version: 'stable'
 
-      - name: Generate static data
-        run: go generate ./cmd/essentialist
-
       - name: Build essentialist (intel)
         run: go build -o ./essentialist-mac-os-intel ./cmd/essentialist
         env:
           CGO_ENABLED: 1
           GOARCH: amd64
-
-      - name: Generate static data
-        run: go generate ./cmd/essentialist
 
       - name: Build essentialist (arm64)
         run: go build -o ./essentialist-mac-os-arm64 ./cmd/essentialist
@@ -131,9 +119,6 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: 'stable'
-
-      - name: Generate static data
-        run: go generate ./cmd/essentialist
 
       - name: Build essentialist
         run: go build -x -o essentialist.exe ./cmd/essentialist
