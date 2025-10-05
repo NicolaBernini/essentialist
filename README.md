@@ -178,6 +178,7 @@ Similar project: <https://github.com/Yvee1/hascard>.
 go get -u ./...
 go mod tidy
 go run github.com/dennwc/flatpak-go-mod@latest -out cmd/essentialist/flatpak/ .
+go-licenses report ./... --template cmd/essentialist/licenses.tpl > cmd/essentialist/licenses.md
 ```
 
 ### How to make a new version
@@ -192,7 +193,6 @@ sed -i -e 's/[0-9]\+\.[0-9]\+\.[0-9]\+/'$VERSION'/' \
     cmd/essentialist/about.go \
     cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml
     cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml \
-go-licenses report github.com/essentialist-app/essentialist --template cmd/essentialist/licenses.tpl > cmd/essentialist/licenses.md
 git add -u
 git commit -m "v$VERSION"
 git tag v$VERSION
