@@ -77,7 +77,7 @@ jobs:
         go-version: 'stable'
 
     - name: Install fyne
-      run: go install fyne.io/fyne/v2/cmd/fyne@latest
+      run: go install fyne.io/tools/cmd/fyne@latest
 
     - name: Build essentialist
       run: cd cmd/essentialist && ~/go/bin/fyne package -os android && cp Essentialist.apk ../.. && cd -
@@ -99,29 +99,33 @@ jobs:
         with:
           go-version: 'stable'
 
-      - name: Build essentialist (intel)
-        run: go build -o ./essentialist-mac-os-intel ./cmd/essentialist
-        env:
-          CGO_ENABLED: 1
-          GOARCH: amd64
+      - name: Install fyne
+        run: go install fyne.io/tools/cmd/fyne@latest
 
-      - name: Build essentialist (arm64)
-        run: go build -o ./essentialist-mac-os-arm64 ./cmd/essentialist
-        env:
-          CGO_ENABLED: 1
-          GOARCH: arm64
+      - name: Install create-dmg
+        run: brew install create-dmg
 
-      - name: Upload Artifact (intel)
+      - name: Build essentialist
+        run: cd cmd/essentialist && ~/go/bin/fyne package -os darwin
+
+      - name: Create DMG
+        run: |
+          create-dmg \
+            --volname "Essentialist" \
+            --window-pos 200 120 \
+            --window-size 800 400 \
+            --icon-size 100 \
+            --icon "Essentialist.app" 200 190 \
+            --hide-extension "Essentialist.app" \
+            --app-drop-link 600 185 \
+            "Essentialist.dmg" \
+            "cmd/essentialist/Essentialist.app"
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Essentialist for MacOS (intel)
-          path: ./essentialist-mac-os-intel
-
-      - name: Upload Artifact (arm64)
-        uses: actions/upload-artifact@v4
-        with:
-          name: Essentialist for MacOS (arm64)
-          path: ./essentialist-mac-os-arm64
+          name: Essentialist for MacOS
+          path: ./Essentialist.dmg
 
   build-for-windows:
     runs-on: windows-latest
