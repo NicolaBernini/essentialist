@@ -12,8 +12,10 @@ permissions:
   packages: write
 
 jobs:
-  release:
+  update-version:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ inputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,19 +36,33 @@ jobs:
           branch: main
           file_pattern: 'cmd/essentialist/FyneApp.toml cmd/essentialist/about.go cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.metainfo.xml cmd/essentialist/flatpak/io.github.essentialist_app.essentialist.yml'
 
-  tag:
-    needs: release
+  build-artifacts:
+    needs: update-version
+    uses: ./.github/workflows/build-artifacts.yml
+    secrets: inherit
+
+  create-tag-and-release:
+    needs: [update-version, build-artifacts]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Checkout the commit created by the update-version job
+          ref: 'main'
+
       - name: Create and push tag
         run: |
-          git tag v${{ inputs.version }}
-          git push origin v${{ inputs.version }}
+          git tag v${{ needs.update-version.outputs.version }}
+          git push origin v${{ needs.update-version.outputs.version }}
 
-  build-release:
-    needs: tag
-    uses: ./.github/workflows/build-release.yml
-    secrets: inherit
-    with:
-      tag: v${{ inputs.version }}
+      - name: Fetch artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ needs.update-version.outputs.version }}
+          artifacts: "artifacts/Essentialist for Linux/essentialist-linux,artifacts/Essentialist for Linux (flatpak)/essentialist.flatpak,artifacts/Essentialist for Windows/essentialist.exe,artifacts/Essentialist for MacOS/Essentialist.dmg,artifacts/Essentialist for Android (APK)/Essentialist.apk"
+          allowUpdates: true
