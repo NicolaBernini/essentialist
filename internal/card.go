@@ -15,7 +15,7 @@ var (
 	errInvalidCard     = errors.New("Invalid card")
 )
 
-var splitQuestion = regexp.MustCompile(`(?m)^##\s*`)
+var splitQuestion = regexp.MustCompile(`(?m)^#+\s*`)
 
 type Card struct {
 	Question string
@@ -98,18 +98,32 @@ func loadCard(md string, deckPath string) (c Card, err error) {
 		return c, errCardEmpty
 	}
 	sheets := strings.SplitN(md, "\n", 2)
-	if len(sheets) != 2 {
+	if len(sheets) < 1 {
 		return c, errInvalidCard
 	}
-	if !strings.HasPrefix(sheets[0], "##") {
+	if !strings.HasPrefix(sheets[0], "#") {
 		return c, errInvalidCard
 	}
-	// Remove the '##' from the question.
-	c.Question = trim(sheets[0][2:])
+	// Count and remove the '#' characters from the question.
+	headerLen := 0
+	for i := 0; i < len(sheets[0]) && sheets[0][i] == '#'; i++ {
+		headerLen++
+	}
+	c.Question = trim(sheets[0][headerLen:])
 	if c.Question == "" {
 		return c, errInvalidCard
 	}
-	c.Answer = trim(sheets[1])
+	// If there's no content after the header, skip this card
+	if len(sheets) == 2 {
+		c.Answer = trim(sheets[1])
+	} else {
+		c.Answer = ""
+	}
+
+	// Skip cards with no answer content
+	if c.Answer == "" {
+		return c, errCardEmpty
+	}
 
 	c.Question, err = rewriteImagePaths(c.Question, deckPath)
 	if err != nil {

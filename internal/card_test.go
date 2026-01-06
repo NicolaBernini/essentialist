@@ -91,6 +91,56 @@ Some code
 	}
 }
 
+func TestMultipleHeaderLevels(t *testing.T) {
+	input := `# H1 Question
+This is an H1 answer
+
+## H2 Question
+This is an H2 answer
+
+### H3 Question
+This is an H3 answer
+
+#### H4 Question
+This is an H4 answer
+`
+	expected := []Card{
+		{
+			Question: "H1 Question",
+			Answer:   "This is an H1 answer",
+		},
+		{
+			Question: "H2 Question",
+			Answer:   "This is an H2 answer",
+		},
+		{
+			Question: "H3 Question",
+			Answer:   "This is an H3 answer",
+		},
+		{
+			Question: "H4 Question",
+			Answer:   "This is an H4 answer",
+		},
+	}
+	cards, err := readCards(bytes.NewBufferString(input), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(cards) != len(expected) {
+		t.Fatalf("Wrong length: got %d, want %d", len(cards), len(expected))
+	}
+	for i, card := range cards {
+		if card.Question != expected[i].Question {
+			t.Errorf("Card %d Question: got %q, want %q",
+				i, card.Question, expected[i].Question)
+		}
+		if card.Answer != expected[i].Answer {
+			t.Errorf("Card %d Answer: got %q, want %q",
+				i, card.Answer, expected[i].Answer)
+		}
+	}
+}
+
 func TestReadCardsWithImagePath(t *testing.T) {
 	input := `
 ## Card with image in answer
